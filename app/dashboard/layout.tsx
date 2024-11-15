@@ -1,12 +1,26 @@
-import SideNav from "@/app/ui/dashboard/sidenav";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import DashboardNav from "../ui/dashboard/dashboard-nav";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default async function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const authObject: SignedInAuthObject = await auth();
+
+  if (!authObject.userId) {
+    redirect("/");
+  }
+
   return (
-    <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
-      <div className="w-full flex-none md:w-64">
-        <SideNav />
+    <div className="dark">
+      <div className="min-h-screen bg-background">
+        <DashboardNav />
+        <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+          {children}
+        </main>
       </div>
-      <div className="flex-grow p-6 md:overflow-y-auto md:p-12">{children}</div>
     </div>
   );
 }

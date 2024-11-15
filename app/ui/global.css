@@ -2,17 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-input[type='number'] {
-  -moz-appearance: textfield;
-  appearance: textfield;
+@layer base {
+  :root {
+    /* Light theme */
+    --background: #ffffff;
+    --foreground: #000000;
+    --card: #ffffff;
+    --card-foreground: #000000;
+    --border: #e5e7eb;
+  }
+
+  .dark {
+    /* Dark theme */
+    --background: #000000;
+    --foreground: #ffffff;
+    --card: #121212;
+    --card-foreground: #ffffff;
+    --border: #333333;
+  }
 }
 
-input[type='number']::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type='number']::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+@layer base {
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
 }

@@ -1,9 +1,30 @@
-import NextAuth from "next-auth";
-import { authConfig } from "./auth.config";
+import { clerkMiddleware, ClerkMiddlewareOptions } from "@clerk/nextjs/server";
 
-export default NextAuth(authConfig).auth; // runs the auth config when route is intercepted
+const options = {
+  signInUrl: "/",
+  afterSignInUrl: "/dashboard",
+} satisfies ClerkMiddlewareOptions;
+
+export default clerkMiddleware({
+  ...options,
+});
+
+// publishableKey?: string;
+// domain?: string;
+// isSatellite?: boolean;
+// proxyUrl?: string;
+// signInUrl?: string;
+// signUpUrl?: string;
+// afterSignInUrl?: string;
+// afterSignUpUrl?: string;
+// organizationSyncOptions?: OrganizationSyncOptions;
+// apiClient?: ApiClient;
 
 export const config = {
-  // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
-  matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
+  matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    // Always run for API routes
+    "/(api|trpc)(.*)",
+  ],
 };
