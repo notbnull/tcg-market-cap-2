@@ -18,18 +18,9 @@ export default async function Dashboard() {
 
   return (
     <>
-      {/* Market Trends */}
-      <Suspense fallback={<div>Loading market overview...</div>}>
-        <MarketOverview data={marketData} />
-      </Suspense>
-
-      <Suspense fallback={<div>Loading market trends...</div>}>
-        <MarketTrends data={marketData} />
-      </Suspense>
-
-      {/* Trending Cards */}
-      <Suspense fallback={<div>Loading trending cards...</div>}>
-        <TrendingCards data={trendingCards} />
+      {/* Search Bar */}
+      <Suspense fallback={<div>Loading search...</div>}>
+        <SearchBar />
       </Suspense>
     </>
   );

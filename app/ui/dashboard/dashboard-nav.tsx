@@ -16,7 +16,8 @@ import { Button } from "@/app/ui/components/button";
 import { SignOutButton, UserProfile, useUser } from "@clerk/nextjs";
 import { useState } from "react";
 import { Bell, BellDot, BellDotIcon, BellRing, Menu, X } from "lucide-react";
-import { BellAlertIcon } from "@heroicons/react/24/outline";
+import Logo from "@/app/ui/components/logo";
+import NavLinks from "./nav-links";
 
 export default function DashboardNav() {
   const { isLoaded, user } = useUser();
@@ -31,82 +32,23 @@ export default function DashboardNav() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <img
-                className="h-8 w-8"
-                src="/placeholder.svg?height=32&width=32"
-                alt="Logo"
-              />
+              <Logo />
             </div>
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-4">
-                <a
-                  href="#"
-                  className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Dashboard
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Market
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Portfolio
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Analytics
-                </a>
-              </div>
-            </div>
+            <NavLinks />
           </div>
           <div className="hidden md:block">
             <div className="ml-4 flex items-center md:ml-6">
               <Button
-                onClick={() => {
-                  alert("Notifications coming soon!");
-                }}
                 variant="ghost"
-                size="icon"
-                className="relative"
+                className="ml-2"
+                onClick={() => setIsProfileOpen(true)}
               >
-                <Bell className="h-5 w-5" />
-                <BellDot className="h-5 w-5" />
+                <Avatar>
+                  <AvatarImage src={userImage} />
+                  <AvatarFallback>{userName}</AvatarFallback>
+                </Avatar>
               </Button>
-
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="ml-2">
-                    <Avatar>
-                      <AvatarImage src={userImage} alt="@johndoe" />
-                      <AvatarFallback>{userName}</AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onSelect={() => setIsProfileOpen(true)}>
-                    Profile
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onSelect={() => {
-                      alert("Coming Soon");
-                    }}
-                  >
-                    Settings
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <SignOutButton>Logout</SignOutButton>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <SignOutButton>Logout</SignOutButton>
             </div>
           </div>
           <div className="-mr-2 flex md:hidden">
@@ -115,7 +57,6 @@ export default function DashboardNav() {
             </Button>
           </div>
         </div>
-        {/* Replace Dialog with custom modal */}
         {isProfileOpen && (
           <div
             className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center"

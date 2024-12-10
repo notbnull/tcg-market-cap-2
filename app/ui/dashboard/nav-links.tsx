@@ -1,54 +1,47 @@
-"use client";
-
 import {
   UserGroupIcon,
   HomeIcon,
   DocumentDuplicateIcon,
+  ChartBarIcon,
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// Map of links to display in the side navigation.
-// Depending on the size of the application, this would be stored in a database.
 const links = [
-  { name: "Home", href: "/dashboard", icon: HomeIcon },
+  { name: "Dashboard", href: "/dashboard" },
+  { name: "Market", href: "/dashboard/market" },
   {
-    name: "Invoices",
-    href: "/dashboard/invoices",
-    icon: DocumentDuplicateIcon,
+    name: "Portfolio",
+    href: "/dashboard/portfolio",
   },
-  { name: "Customers", href: "/dashboard/customers", icon: UserGroupIcon },
+  { name: "Analytics", href: "/dashboard/analytics" },
 ];
 
 export default function NavLinks() {
   const pathname = usePathname();
 
   return (
-    <>
-      {links.map((link) => {
-        const LinkIcon = link.icon;
-        return (
-          <Link
-            key={link.name}
-            href={link.href}
-            className="flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3"
-          >
-            <div
+    <div className="hidden md:block">
+      <div className="ml-10 flex items-baseline space-x-4">
+        {links.map((link) => {
+          return (
+            <Link
+              key={link.name}
+              href={link.href}
               className={clsx(
-                "flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3",
+                "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium",
                 {
-                  "bg-sky-100 text-blue-600": pathname === link.href,
+                  "bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white":
+                    pathname === link.href,
                 }
               )}
             >
-              <LinkIcon className="w-6" />{" "}
-            </div>
-
-            <p className="hidden md:block">{link.name}</p>
-          </Link>
-        );
-      })}
-    </>
+              {link.name}
+            </Link>
+          );
+        })}
+      </div>
+    </div>
   );
 }
