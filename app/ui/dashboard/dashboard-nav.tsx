@@ -4,14 +4,6 @@ import {
   AvatarImage,
   AvatarFallback,
 } from "@/app/ui/components/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuItem,
-} from "@/app/ui/components/dropdown-menu";
 import { Button } from "@/app/ui/components/button";
 import { SignOutButton, UserProfile, useUser } from "@clerk/nextjs";
 import { useState } from "react";
