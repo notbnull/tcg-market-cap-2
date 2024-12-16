@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { mongoose } from "@typegoose/typegoose";
+import mongoose from "mongoose";
 import { env } from "../env/config";
 import logger from "../utils/Logger";
 let db: mongoose.Connection;
