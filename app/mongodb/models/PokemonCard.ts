@@ -4,6 +4,8 @@ import {
   modelOptions,
   Severity,
 } from "@typegoose/typegoose";
+import type { Ref } from "react";
+import { PokemonSet } from "./PokemonSet";
 
 interface TCGPlayerPrices {
   low?: number;
@@ -31,90 +33,11 @@ interface CardMarketPrices {
   reverseHoloAvg30?: number;
 }
 
-@modelOptions({
-  schemaOptions: { timestamps: true },
-  options: { allowMixed: Severity.ALLOW }, // For mixed price objects
-})
-class AncientTrait {
-  @prop({ required: true })
-  public name: string;
-
-  @prop({ required: true })
-  public text: string;
-}
-
-class Ability {
-  @prop({ required: true })
-  public name: string;
-
-  @prop({ required: true })
-  public text: string;
-
-  @prop({ required: true })
-  public type: string;
-}
-
-class Attack {
-  @prop({ type: () => [String] })
-  public cost?: string[];
-
-  @prop({ required: true })
-  public name: string;
-
-  @prop()
-  public text?: string;
-
-  @prop()
-  public damage?: string;
-
-  @prop({ required: true })
-  public convertedEnergyCost: number;
-}
-
-class WeaknessResistance {
-  @prop({ required: true })
-  public type: string;
-
-  @prop({ required: true })
-  public value: string;
-}
-
-class SetInfo {
-  @prop({ required: true })
-  public id: string;
-
-  @prop({ required: true })
-  public name: string;
-
-  @prop({ required: true })
-  public series: string;
-
-  @prop({ required: true })
-  public printedTotal: number;
-
-  @prop({ required: true })
-  public total: number;
-
-  @prop({
-    type: () => ({ unlimited: String, standard: String, expanded: String }),
-  })
-  public legalities: Record<string, string>;
-
-  @prop({ required: true })
-  public releaseDate: string;
-
-  @prop({ type: () => ({ symbol: String, logo: String }) })
-  public images: {
-    symbol: string;
-    logo: string;
-  };
-}
-
 class PriceInfo<T extends TCGPlayerPrices | CardMarketPrices> {
-  @prop()
+  @prop({ type: String })
   public url?: string;
 
-  @prop()
+  @prop({ type: String })
   public updatedAt?: string;
 
   @prop({ type: () => Object, _id: false })
@@ -122,90 +45,39 @@ class PriceInfo<T extends TCGPlayerPrices | CardMarketPrices> {
 }
 
 class CardImages {
-  @prop({ required: true })
+  @prop({ required: true, type: String })
   public small: string;
 
-  @prop({ required: true })
+  @prop({ required: true, type: String })
   public large: string;
 }
 
+@modelOptions({
+  schemaOptions: { timestamps: true },
+  options: { allowMixed: Severity.ALLOW }, // For mixed price objects
+})
 export class PokemonCard {
-  @prop({ required: true, unique: true })
-  public id: string;
+  @prop({ required: true, unique: true, type: String })
+  public pokemonTcgApiId: string;
 
-  @prop({ required: true })
+  @prop({ required: true, type: String })
   public name: string;
 
-  @prop({ required: true })
-  public supertype: string;
+  @prop({ ref: () => PokemonSet, required: true })
+  public set: Ref<PokemonSet>;
 
-  @prop({ type: () => [String] })
-  public subtypes?: string[];
-
-  @prop()
-  public level?: string;
-
-  @prop()
-  public hp?: string;
-
-  @prop({ type: () => [String] })
-  public types?: string[];
-
-  @prop()
-  public evolvesFrom?: string;
-
-  @prop({ type: () => [String] })
-  public evolvesTo?: string[];
-
-  @prop({ type: () => [String] })
-  public rules?: string[];
-
-  @prop({ type: () => AncientTrait })
-  public ancientTrait?: AncientTrait;
-
-  @prop({ type: () => [Ability] })
-  public abilities?: Ability[];
-
-  @prop({ type: () => [Attack] })
-  public attacks?: Attack[];
-
-  @prop({ type: () => [WeaknessResistance] })
-  public weaknesses?: WeaknessResistance[];
-
-  @prop({ type: () => [WeaknessResistance] })
-  public resistances?: WeaknessResistance[];
-
-  @prop({ type: () => [String] })
-  public retreatCost?: string[];
-
-  @prop()
-  public convertedRetreatCost?: number;
-
-  @prop({ type: () => SetInfo, required: true })
-  public set: SetInfo;
-
-  @prop({ required: true })
+  @prop({ required: true, type: String })
   public number: string;
 
-  @prop({ required: true })
+  @prop({ required: true, type: String })
   public artist: string;
 
-  @prop({ required: true })
+  @prop({ required: true, type: String })
   public rarity: string;
 
-  @prop()
-  public flavorText?: string;
-
-  @prop({ type: () => [Number] })
-  public nationalPokedexNumbers?: number[];
-
-  @prop({
-    type: () => ({ unlimited: String, standard: String, expanded: String }),
-  })
-  public legalities: Record<string, string>;
-
-  @prop()
-  public regulationMark?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  @prop({ type: Number, required: false })
+  public nationalPokedexNumber?: number;
 
   @prop({ type: () => CardImages, required: true })
   public images: CardImages;

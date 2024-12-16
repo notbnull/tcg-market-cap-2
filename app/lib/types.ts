@@ -17,3 +17,36 @@ export type TrendingCard = {
   marketCap: { PSA: number; BGS: number; CGC: number };
   priceChange: number;
 };
+
+export interface Card {
+  id: number;
+  name: string;
+  set: string;
+  number: string;
+  rarity: string;
+  marketCap: {
+    PSA: number;
+    BGS: number;
+    CGC: number;
+  };
+  lastSold: string;
+}
+
+export interface Filters {
+  search: string;
+  rarity: string[];
+  sets: string[];
+  priceRange: {
+    min: number;
+    max: number;
+  };
+  gradeType: "PSA" | "BGS" | "CGC";
+}
+
+export interface CatalogTableProps {
+  query: string;
+  currentPage: number;
+}
+
+export type SortDirection = "asc" | "desc";
+export type GradeType = "PSA" | "BGS" | "CGC";

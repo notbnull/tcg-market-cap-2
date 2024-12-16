@@ -5,7 +5,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/ui/components/card";
-
 export default function TrendingCards({ data }: { data: TrendingCard[] }) {
   return (
     <Card>
