@@ -47,6 +47,7 @@
     "typegoose": "^5.9.1",
     "typescript": "5.6.3",
     "use-debounce": "^10.0.4",
+    "winston": "^3.17.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

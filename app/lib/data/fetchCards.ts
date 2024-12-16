@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PokemonCard } from "@/app/mongodb/models/PokemonCard";
+import logger from "@/app/utils/Logger";
 
 export async function fetchCards({
   page = 1,
@@ -13,15 +14,16 @@ export async function fetchCards({
   sortDirection?: "asc" | "desc";
 }) {
   const sort = { [sortColumn]: sortDirection === "asc" ? 1 : -1 };
-
+  logger.info(`Fetching cards with sort: ${sortColumn} ${sortDirection}`);
   const PokemonCardModel = await PokemonCard.getMongoModel();
   const cards = await PokemonCardModel.find({})
     .sort(sort)
     .skip((page - 1) * limit)
     .limit(limit)
     .lean();
-
+  logger.info(`Fetched ${cards.length} cards`);
   const totalCards = await PokemonCardModel.countDocuments();
+  logger.info(`Total cards: ${totalCards}`);
 
   const plainCards = cards.map((card: any) => ({
     ...card,
@@ -40,9 +42,6 @@ export async function fetchCards({
       _id: card?.images?._id?.toString() ?? "",
     },
   }));
-
-  console.log(plainCards);
-  console.log(totalCards);
 
   return { cards: plainCards, totalCards };
 }

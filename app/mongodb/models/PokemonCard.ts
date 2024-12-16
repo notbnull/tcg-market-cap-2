@@ -7,6 +7,7 @@ import {
 import type { Ref } from "react";
 import { PokemonSet } from "./PokemonSet";
 import { setupMongo } from "../setup";
+import { Timer } from "@/app/utils/timerDecorator";
 
 interface TCGPlayerPrices {
   low?: number;
@@ -89,6 +90,7 @@ export class PokemonCard {
   @prop({ type: () => PriceInfo<CardMarketPrices> })
   public cardmarket?: PriceInfo<CardMarketPrices>;
 
+  @Timer
   public static async getMongoModel() {
     const db = await setupMongo();
     return db.model("PokemonCard", getModelForClass(PokemonCard).schema);
