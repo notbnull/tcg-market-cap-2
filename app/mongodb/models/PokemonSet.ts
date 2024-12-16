@@ -35,6 +35,9 @@ export class PokemonSet {
   @Timer
   public static async getMongoModel() {
     const db = await setupMongo();
+    if (db.models.PokemonSet) {
+      return db.models.PokemonSet;
+    }
     return db.model("PokemonSet", getModelForClass(PokemonSet).schema);
   }
 }

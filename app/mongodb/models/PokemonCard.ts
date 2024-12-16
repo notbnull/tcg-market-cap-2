@@ -93,6 +93,9 @@ export class PokemonCard {
   @Timer
   public static async getMongoModel() {
     const db = await setupMongo();
+    if (db.models.PokemonCard) {
+      return db.models.PokemonCard;
+    }
     return db.model("PokemonCard", getModelForClass(PokemonCard).schema);
   }
 }

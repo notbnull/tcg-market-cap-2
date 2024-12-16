@@ -21,22 +21,17 @@ export default async function Page(props: {
   const sortDirection = searchParams?.sortDirection || "asc";
 
   // // Fetch data on the server
-  const cardData = fetchCards({
+  const cardData = await fetchCards({
     page: currentPage,
     limit,
     sortColumn,
     sortDirection,
   });
-  const cards = await cardData;
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Card className="max-w-7xl mx-auto ">
-        <CardHeader>
-          {/* <CardTitle className="text-2xl font-bold">
-            Catalog
-          </CardTitle> */}
-        </CardHeader>
+        <CardHeader></CardHeader>
         <CardContent>
           {/* Search Bar */}
           <Suspense fallback={<div>Loading search...</div>}>
@@ -49,11 +44,11 @@ export default async function Page(props: {
             fallback={<div>Loading table...</div>}
           >
             <CatalogTable
-              cards={cards.cards}
+              cards={cardData.cards}
               query={query}
               currentPage={currentPage}
-              totalCards={cards.totalCards}
-              totalPages={Math.floor(cards.totalCards / limit) + 1}
+              totalCards={cardData.totalCards}
+              totalPages={Math.ceil(cardData.totalCards / limit)}
             />
           </Suspense>
           {/* <div className="mt-5 flex w-full justify-center">
