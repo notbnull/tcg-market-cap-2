@@ -2,26 +2,32 @@ import { Suspense } from "react";
 import SearchBar from "@/app/ui/dashboard/search-bar";
 import CatalogTable from "@/app/ui/catalog/CatalogTable";
 import { Card, CardContent, CardHeader } from "@/app/ui/components/card";
-// import { getMarketData } from "@/app/lib/getMarketData";
-// import { getTrendingCards } from "@/app/lib/getTrendingCards";
+import { fetchCards } from "@/app/lib/data/fetchCards";
 
 export default async function Page(props: {
   searchParams?: Promise<{
     query?: string;
     page?: string;
+    limit?: string;
+    sortColumn?: string;
+    sortDirection?: "asc" | "desc";
   }>;
 }) {
   const searchParams = await props.searchParams;
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
-  // const marketDataPromise = getMarketData();
-  // const trendingCardsPromise = getTrendingCards();
+  const limit = Number(searchParams?.limit) || 25;
+  const sortColumn = searchParams?.sortColumn || "name";
+  const sortDirection = searchParams?.sortDirection || "asc";
 
   // // Fetch data on the server
-  // const [marketData, trendingCards] = await Promise.all([
-  //   marketDataPromise,
-  //   trendingCardsPromise,
-  // ]);
+  const cardData = fetchCards({
+    page: currentPage,
+    limit,
+    sortColumn,
+    sortDirection,
+  });
+  const cards = await cardData;
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -42,7 +48,13 @@ export default async function Page(props: {
             key={query + currentPage}
             fallback={<div>Loading table...</div>}
           >
-            <CatalogTable query={query} currentPage={currentPage} />
+            <CatalogTable
+              cards={cards.cards}
+              query={query}
+              currentPage={currentPage}
+              totalCards={cards.totalCards}
+              totalPages={Math.floor(cards.totalCards / limit) + 1}
+            />
           </Suspense>
           {/* <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />

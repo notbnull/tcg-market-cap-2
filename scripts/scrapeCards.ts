@@ -1,19 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // lets scrape the cards from the api and save them to the database
-import {
-  PokemonCard,
-  PokemonCardModel,
-} from "@/app/mongodb/models/PokemonCard";
+import { PokemonCard } from "@/app/mongodb/models/PokemonCard";
 import mongoose from "mongoose";
-import { env } from "@/app/env/config";
-import { PokemonSetModel } from "@/app/mongodb/models/PokemonSet";
+import { PokemonSet } from "@/app/mongodb/models/PokemonSet";
 import { Types } from "mongoose";
 
 async function main() {
   try {
-    const { PokemonCardModelWithDb, PokemonSetModelWithDb } =
-      await setupMongo();
-
     let page = 32;
     let hasMorePages = true;
 
@@ -28,9 +21,10 @@ async function main() {
       }
 
       console.log(`Fetched ${cards.length} cards from page ${page}`);
-
+      const PokemonCardModel = await PokemonCard.getMongoModel();
+      const PokemonSetModel = await PokemonSet.getMongoModel();
       for (const card of cards) {
-        await processCard(PokemonCardModelWithDb, PokemonSetModelWithDb, card);
+        await processCard(PokemonCardModel, PokemonSetModel, card);
       }
 
       console.log(`Finished processing page ${page}`);
@@ -44,24 +38,6 @@ async function main() {
     await mongoose.connection.close();
     process.exit(1);
   }
-}
-
-async function setupMongo(): Promise<any> {
-  await mongoose.connect(env.MONGODB_URI);
-  console.log("Connected to MongoDB");
-
-  const db = mongoose.connection.useDb(env.MONGODB_DB_NAME, {
-    useCache: true, // This helps with performance
-  });
-
-  const PokemonCardModelWithDb = db.model(
-    "PokemonCard",
-    PokemonCardModel.schema
-  );
-
-  const PokemonSetModelWithDb = db.model("PokemonSet", PokemonSetModel.schema);
-
-  return { PokemonCardModelWithDb, PokemonSetModelWithDb };
 }
 
 async function fetchCards(page: number): Promise<unknown[]> {
@@ -87,8 +63,8 @@ async function fetchCards(page: number): Promise<unknown[]> {
 }
 
 async function processCard(
-  pokemonCardModelWithDb: typeof PokemonCardModel,
-  pokemonSetModelWithDb: typeof PokemonSetModel,
+  pokemonCardModelWithDb: any,
+  pokemonSetModelWithDb: any,
   cardData: any
 ) {
   let set = await pokemonSetModelWithDb.findOne({

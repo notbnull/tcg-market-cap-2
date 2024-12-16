@@ -102,19 +102,19 @@ export function CardList({
       </TableHeader>
       <TableBody>
         {cards.map((card) => (
-          <TableRow key={card.id} className="hover:bg-muted/50">
+          <TableRow key={card._id} className="hover:bg-muted/50">
             <TableCell className="font-medium py-2">{card.name}</TableCell>
             <TableCell className="md:table-cell py-2">{card.set}</TableCell>
             <TableCell className="sm:table-cell py-2">{card.number}</TableCell>
             <TableCell className="sm:table-cell py-2">{card.rarity}</TableCell>
             <TableCell className="py-2">
-              ${card.marketCap.PSA.toLocaleString()}
+              ${card.marketCap?.PSA?.toLocaleString() || "N/A"}
             </TableCell>
             <TableCell className="py-2">
-              ${card.marketCap.BGS.toLocaleString()}
+              ${card.marketCap?.BGS?.toLocaleString() || "N/A"}
             </TableCell>
             <TableCell className="py-2">
-              ${card.marketCap.CGC.toLocaleString()}
+              ${card.marketCap?.CGC?.toLocaleString() || "N/A"}
             </TableCell>
             <TableCell className="text-right sm:table-cell py-2">
               {card.lastSold}

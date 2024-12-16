@@ -1,4 +1,5 @@
 import { getModelForClass, prop } from "@typegoose/typegoose";
+import { setupMongo } from "../setup";
 
 class SetImages {
   @prop({ required: true, type: String })
@@ -29,6 +30,9 @@ export class PokemonSet {
 
   @prop({ type: () => SetImages })
   public images: SetImages;
-}
 
-export const PokemonSetModel = getModelForClass(PokemonSet);
+  public static async getMongoModel() {
+    const db = await setupMongo();
+    return db.model("PokemonSet", getModelForClass(PokemonSet).schema);
+  }
+}

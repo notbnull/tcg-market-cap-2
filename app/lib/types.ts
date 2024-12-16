@@ -44,8 +44,11 @@ export interface Filters {
 }
 
 export interface CatalogTableProps {
+  cards: Card[];
   query: string;
   currentPage: number;
+  totalCards: number;
+  totalPages: number;
 }
 
 export type SortDirection = "asc" | "desc";

@@ -6,6 +6,7 @@ import {
 } from "@typegoose/typegoose";
 import type { Ref } from "react";
 import { PokemonSet } from "./PokemonSet";
+import { setupMongo } from "../setup";
 
 interface TCGPlayerPrices {
   low?: number;
@@ -87,6 +88,9 @@ export class PokemonCard {
 
   @prop({ type: () => PriceInfo<CardMarketPrices> })
   public cardmarket?: PriceInfo<CardMarketPrices>;
-}
 
-export const PokemonCardModel = getModelForClass(PokemonCard);
+  public static async getMongoModel() {
+    const db = await setupMongo();
+    return db.model("PokemonCard", getModelForClass(PokemonCard).schema);
+  }
+}
