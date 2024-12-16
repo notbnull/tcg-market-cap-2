@@ -19,6 +19,7 @@ export type TrendingCard = {
 };
 
 export interface Card {
+  _id: string;
   id: number;
   name: string;
   set: string;
