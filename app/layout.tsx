@@ -4,9 +4,8 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "next-themes";
 import { ThemeToggle } from "./ui/theme-toggle";
-import { env } from '@/app/env/config'
-
-
+import { env } from "@/app/env/config";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: {
@@ -31,9 +30,12 @@ export default function RootLayout({
           enableSystem={false}
           forcedTheme="dark"
         >
-          <ClerkProvider publishableKey={env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>{children}</ClerkProvider>
+          <ClerkProvider publishableKey={env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
+            {children}
+          </ClerkProvider>
           <ThemeToggle />
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
