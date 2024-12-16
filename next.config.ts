@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true, // This will disable image optimization
   },
+  expireTime: 300,
 };
 
 export default nextConfig;

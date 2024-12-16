@@ -4,7 +4,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev --turbo",
-    "start": "next start",
+    "start": "next start -keepAliveTimeout 70000",
     "lint": "next lint"
   },
   "dependencies": {

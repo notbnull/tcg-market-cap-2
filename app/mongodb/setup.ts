@@ -19,7 +19,6 @@ export async function setupMongo(): Promise<any> {
     db = mongoose.connection.useDb(env.MONGODB_DB_NAME, {
       useCache: true,
     });
-    logger.info("Connected to MongoDB");
     return db;
   } catch (error) {
     logger.error(`Error connecting to MongoDB, ${error}`);
