@@ -11,7 +11,7 @@ export async function setupMongo(): Promise<any> {
   try {
     logger.info("Connecting to MongoDB");
     await mongoose.connect(env.MONGODB_URI);
-    console.log("Connected to MongoDB");
+    logger.info("Connected to MongoDB");
 
     db = mongoose.connection.useDb(env.MONGODB_DB_NAME, {
       useCache: true,
