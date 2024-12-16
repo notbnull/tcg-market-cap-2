@@ -9,8 +9,11 @@ export async function setupMongo(): Promise<any> {
     return db;
   }
   try {
-    logger.info("Connecting to MongoDB");
-    await mongoose.connect(env.MONGODB_URI);
+    logger.info(`Connecting to MongoDB ${env.MONGODB_URI}`);
+    await mongoose.connect(env.MONGODB_URI, {
+      connectTimeoutMS: 30000, // 30 seconds
+      socketTimeoutMS: 30000, // 30 seconds
+    });
     logger.info("Connected to MongoDB");
 
     db = mongoose.connection.useDb(env.MONGODB_DB_NAME, {
