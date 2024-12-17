@@ -1,3 +1,4 @@
+import { setupMongo } from "@/app/mongodb/setup";
 import { inngest } from "./client";
 
 export const helloWorld = inngest.createFunction(
@@ -23,5 +24,14 @@ export const scrapPokemonCardMetadata = inngest.createFunction(
     );
 
     return pokemonCardMetadata;
+  }
+);
+
+export const connectToMongo = inngest.createFunction(
+  { id: "connect-to-mongo" },
+  { event: "connect/to-mongo" },
+  async ({ event, step }) => {
+    const db = await setupMongo();
+    return db;
   }
 );
