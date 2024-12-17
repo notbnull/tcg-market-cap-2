@@ -35,16 +35,19 @@ async function setupMongo() {
       socketTimeoutMS: 30000,
     };
 
+    logger.info(`Connecting to MongoDB ${MONGODB_URI}`);
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
       // Explicitly use the specified database
       return mongoose.connection.useDb(MONGODB_DB_NAME, {
         useCache: true, // This ensures the connection is cached
       });
     });
+    logger.info("Connected to MongoDB");
   }
 
   try {
     cached.conn = await cached.promise;
+    logger.info("Connected to MongoDB");
   } catch (e) {
     cached.promise = null;
     throw e;

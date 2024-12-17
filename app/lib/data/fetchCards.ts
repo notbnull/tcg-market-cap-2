@@ -16,7 +16,8 @@ export async function fetchCards({
   const sort = { [sortColumn]: sortDirection === "asc" ? 1 : -1 };
   logger.info(`Fetching cards with sort: ${sortColumn} ${sortDirection}`);
   const PokemonCardModel = (await PokemonCard.getMongoModel()) as any;
-  const cards = await PokemonCardModel.find()
+  logger.info("Getting PokemonCard Model");
+  const cards = await PokemonCardModel.find({})
     .sort(sort)
     .skip((page - 1) * limit)
     .limit(limit)

@@ -8,7 +8,7 @@ import type { Ref } from "react";
 import { PokemonSet } from "./PokemonSet";
 import setupMongo from "../setup";
 import { Timer } from "@/app/utils/timerDecorator";
-
+import logger from "../../utils/Logger";
 interface TCGPlayerPrices {
   low?: number;
   mid?: number;
@@ -93,9 +93,12 @@ export class PokemonCard {
   @Timer
   public static async getMongoModel() {
     const db = await setupMongo();
+    logger.info("Getting PokemonCard Model");
     if (db.models.PokemonCard) {
+      logger.info("PokemonCard Model already exists");
       return db.models.PokemonCard;
     }
+    logger.info("Creating PokemonCard Model");
     return db.model("PokemonCard", getModelForClass(PokemonCard).schema);
   }
 }
