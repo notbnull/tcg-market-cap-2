@@ -2,58 +2,47 @@
 import mongoose from "mongoose";
 import { env } from "../env/config";
 import logger from "../utils/Logger";
+
 const MONGODB_URI = env.MONGODB_URI;
 const MONGODB_DB_NAME = env.MONGODB_DB_NAME;
-const runtime = process.env.NEXT_RUNTIME;
 
-interface CachedConnection {
-  conn: mongoose.Connection | null;
-  promise: Promise<mongoose.Connection> | null;
-}
-
-let cached: CachedConnection = (global as any).mongoose;
-
-if (!cached) {
-  cached = (global as any).mongoose = {
-    conn: null,
-    promise: null,
-  };
-}
+let conn: mongoose.Connection | null = null;
 
 async function setupMongo() {
-  logger.info(`Runtime: ${runtime}`);
-  logger.info("Setting up MongoDB");
-  if (cached.conn) {
-    logger.info("MongoDB already connected");
-    return cached.conn;
-  }
-
-  if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-      connectTimeoutMS: 30000,
-      socketTimeoutMS: 30000,
-    };
-
-    logger.info(`Connecting to MongoDB ${MONGODB_URI}`);
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      // Explicitly use the specified database
-      return mongoose.connection.useDb(MONGODB_DB_NAME, {
-        useCache: true, // This ensures the connection is cached
-      });
-    });
-    logger.info("Connected to MongoDB");
-  }
+  logger.info("Setting up MongoDB connection");
 
   try {
-    cached.conn = await cached.promise;
-    logger.info("Connected to MongoDB");
-  } catch (e) {
-    cached.promise = null;
-    throw e;
-  }
+    if (conn == null) {
+      logger.info("Creating new connection");
 
-  return cached.conn;
+      mongoose.set("bufferCommands", false); // Disable mongoose buffering
+
+      await mongoose.connect(MONGODB_URI, {
+        serverSelectionTimeoutMS: 5000,
+        maxPoolSize: 10,
+        bufferCommands: false, // Disable buffering on the driver level
+        autoCreate: false, // Disable automatic collection creation
+      });
+
+      conn = mongoose.connection.useDb(MONGODB_DB_NAME, {
+        useCache: true,
+      });
+
+      // Handle connection errors
+      conn.on("error", (err) => {
+        logger.error(`MongoDB connection error: ${err}`);
+        conn = null;
+      });
+
+      logger.info("New connection established");
+    }
+
+    return conn;
+  } catch (err) {
+    logger.error(`MongoDB setup error: ${err}`);
+    conn = null;
+    throw err;
+  }
 }
 
 export default setupMongo;
