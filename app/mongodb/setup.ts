@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose";
 import { env } from "../env/config";
-
+import logger from "../utils/Logger";
 const MONGODB_URI = env.MONGODB_URI;
 const MONGODB_DB_NAME = env.MONGODB_DB_NAME;
+const runtime = env.NEXT_RUNTIME;
 
 interface CachedConnection {
   conn: mongoose.Connection | null;
@@ -20,7 +21,10 @@ if (!cached) {
 }
 
 async function setupMongo() {
+  logger.info(`Runtime: ${runtime}`);
+  logger.info("Setting up MongoDB");
   if (cached.conn) {
+    logger.info("MongoDB already connected");
     return cached.conn;
   }
 
