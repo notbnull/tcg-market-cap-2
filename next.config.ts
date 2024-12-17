@@ -3,10 +3,17 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   experimental: {
     ppr: "incremental",
-    serverComponentsExternalPackages: ["mongoose"], // <-- and this
+    esmExternals: "loose",
   },
   images: {
-    unoptimized: true, // This will disable image optimization
+    unoptimized: true,
+  },
+  webpack: (config) => {
+    config.experiments = {
+      topLevelAwait: true,
+      layers: true,
+    };
+    return config;
   },
 };
 
