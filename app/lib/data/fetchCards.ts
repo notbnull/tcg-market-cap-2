@@ -13,9 +13,11 @@ export async function fetchCards({
   sortColumn?: string;
   sortDirection?: "asc" | "desc";
 }) {
-  const sort = { [sortColumn]: sortDirection === "asc" ? 1 : -1 };
+  const sort: { [key: string]: 1 | -1 } = {
+    [sortColumn]: sortDirection === "asc" ? 1 : -1,
+  };
   logger.info(`Fetching cards with sort: ${sortColumn} ${sortDirection}`);
-  const PokemonCardModel = (await PokemonCard.getMongoModel()) as any;
+  const PokemonCardModel = await PokemonCard.getMongoModel();
   logger.info("Getting PokemonCard Model");
   const cards = await PokemonCardModel.find({})
     .sort(sort)

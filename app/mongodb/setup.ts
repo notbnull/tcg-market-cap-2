@@ -8,7 +8,7 @@ const MONGODB_DB_NAME = env.MONGODB_DB_NAME;
 
 let conn: mongoose.Connection | null = null;
 
-async function setupMongo() {
+async function setupMongo(): Promise<mongoose.Connection> {
   logger.info("Setting up MongoDB connection");
 
   try {

@@ -1,6 +1,7 @@
 import { getModelForClass, prop } from "@typegoose/typegoose";
 import setupMongo from "../setup";
 import { Timer } from "@/app/utils/timerDecorator";
+import mongoose from "mongoose";
 
 class SetImages {
   @prop({ required: true, type: String })
@@ -33,7 +34,7 @@ export class PokemonSet {
   public images: SetImages;
 
   @Timer
-  public static async getMongoModel() {
+  public static async getMongoModel(): Promise<mongoose.Model<PokemonSet>> {
     const db = await setupMongo();
     if (db.models.PokemonSet) {
       return db.models.PokemonSet;

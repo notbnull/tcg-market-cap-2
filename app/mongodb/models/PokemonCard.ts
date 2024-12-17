@@ -4,6 +4,7 @@ import {
   modelOptions,
   Severity,
 } from "@typegoose/typegoose";
+import mongoose from "mongoose";
 import type { Ref } from "react";
 import { PokemonSet } from "./PokemonSet";
 import setupMongo from "../setup";
@@ -91,7 +92,7 @@ export class PokemonCard {
   public cardmarket?: PriceInfo<CardMarketPrices>;
 
   @Timer
-  public static async getMongoModel() {
+  public static async getMongoModel(): Promise<mongoose.Model<PokemonCard>> {
     const db = await setupMongo();
     logger.info("Getting PokemonCard Model");
     if (db.models.PokemonCard) {
