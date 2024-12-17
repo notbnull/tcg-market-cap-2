@@ -4,7 +4,7 @@ import { env } from "../env/config";
 import logger from "../utils/Logger";
 const MONGODB_URI = env.MONGODB_URI;
 const MONGODB_DB_NAME = env.MONGODB_DB_NAME;
-const runtime = env.NEXT_RUNTIME;
+const runtime = process.env.NEXT_RUNTIME;
 
 interface CachedConnection {
   conn: mongoose.Connection | null;

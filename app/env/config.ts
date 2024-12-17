@@ -9,7 +9,6 @@ interface Env {
   CLERK_SECRET_KEY: string;
   MONGODB_URI: string;
   MONGODB_DB_NAME: string;
-  NEXT_RUNTIME: string;
 }
 
 // Create and validate env object
@@ -19,7 +18,6 @@ export const env = {
   CLERK_SECRET_KEY: combinedEnv.CLERK_SECRET_KEY,
   MONGODB_URI: combinedEnv.MONGODB_URI,
   MONGODB_DB_NAME: combinedEnv.MONGODB_DB_NAME,
-  NEXT_RUNTIME: combinedEnv.NEXT_RUNTIME,
 } as Env;
 
 // Validate required variables
