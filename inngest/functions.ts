@@ -1,4 +1,4 @@
-import { setupMongo } from "@/app/mongodb/setup";
+import setupMongo from "@/app/mongodb/setup";
 import { inngest } from "./client";
 
 export const helloWorld = inngest.createFunction(

@@ -1,5 +1,5 @@
 import { getModelForClass, prop } from "@typegoose/typegoose";
-import { setupMongo } from "../setup";
+import setupMongo from "../setup";
 import { Timer } from "@/app/utils/timerDecorator";
 
 class SetImages {

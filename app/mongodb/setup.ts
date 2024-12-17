@@ -1,27 +1,52 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose";
 import { env } from "../env/config";
-import logger from "../utils/Logger";
-let db: mongoose.Connection;
 
-export async function setupMongo(): Promise<any> {
-  if (db) {
-    return db;
-  }
-  try {
-    logger.info(`Connecting to MongoDB ${env.MONGODB_URI}`);
-    mongoose.connect(env.MONGODB_URI, {
-      connectTimeoutMS: 30000, // 30 seconds
-      socketTimeoutMS: 30000, // 30 seconds
-    });
-    logger.info("Connected to MongoDB");
+const MONGODB_URI = env.MONGODB_URI;
+const MONGODB_DB_NAME = env.MONGODB_DB_NAME;
 
-    db = mongoose.connection.useDb(env.MONGODB_DB_NAME, {
-      useCache: true,
-    });
-    return db;
-  } catch (error) {
-    logger.error(`Error connecting to MongoDB, ${error}`);
-    throw error;
-  }
+interface CachedConnection {
+  conn: mongoose.Connection | null;
+  promise: Promise<mongoose.Connection> | null;
 }
+
+let cached: CachedConnection = (global as any).mongoose;
+
+if (!cached) {
+  cached = (global as any).mongoose = {
+    conn: null,
+    promise: null,
+  };
+}
+
+async function setupMongo() {
+  if (cached.conn) {
+    return cached.conn;
+  }
+
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false,
+      connectTimeoutMS: 30000,
+      socketTimeoutMS: 30000,
+    };
+
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      // Explicitly use the specified database
+      return mongoose.connection.useDb(MONGODB_DB_NAME, {
+        useCache: true, // This ensures the connection is cached
+      });
+    });
+  }
+
+  try {
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    throw e;
+  }
+
+  return cached.conn;
+}
+
+export default setupMongo;

@@ -6,7 +6,7 @@ import {
 } from "@typegoose/typegoose";
 import type { Ref } from "react";
 import { PokemonSet } from "./PokemonSet";
-import { setupMongo } from "../setup";
+import setupMongo from "../setup";
 import { Timer } from "@/app/utils/timerDecorator";
 
 interface TCGPlayerPrices {
