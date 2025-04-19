@@ -1,4 +1,4 @@
-import { TrendingCard } from "@/app/lib/types";
+import { TrendingCard } from "@/lib/types";
 import {
   Card,
   CardContent,

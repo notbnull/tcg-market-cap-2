@@ -1,4 +1,4 @@
-import { Filters } from "@/app/lib/types";
+import { Filters } from "@/lib/types";
 import { FilterChip } from "../../components/filter-chip";
 
 export function FilterChips({

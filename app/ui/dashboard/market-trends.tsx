@@ -10,7 +10,7 @@ import {
   AreaChart,
 } from "recharts";
 import { Card } from "@/app/ui/components/card";
-import { MarketData } from "@/app/lib/types";
+import { MarketData } from "@/lib/types";
 
 export default function MarketTrends({ data }: { data: MarketData }) {
   return (

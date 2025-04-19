@@ -82,8 +82,8 @@ export function TablePagination({
   if (totalPages <= 1) return null;
 
   return (
-    <div className="mt-4 space-y-2">
-      <div className="text-sm text-muted-foreground text-center">
+    <div className="mt-2 space-y-1">
+      <div className="text-xs text-gray-400 text-center">
         Showing {startItem} to {endItem} of {totalItems} items
       </div>
       <Pagination>
@@ -96,7 +96,7 @@ export function TablePagination({
               className={
                 currentPage <= 1
                   ? "pointer-events-none opacity-50"
-                  : "cursor-pointer"
+                  : "cursor-pointer text-white hover:bg-gray-700"
               }
               aria-disabled={currentPage <= 1}
             />
@@ -108,12 +108,16 @@ export function TablePagination({
               className="sm:inline-block"
             >
               {page === "ellipsis" ? (
-                <PaginationEllipsis />
+                <PaginationEllipsis className="text-gray-400" />
               ) : (
                 <PaginationLink
                   isActive={currentPage === page}
                   onClick={() => handlePageChange(page)}
-                  className="cursor-pointer"
+                  className={`cursor-pointer ${
+                    currentPage === page
+                      ? "bg-purple-600 text-white hover:bg-purple-700"
+                      : "text-white hover:bg-gray-700"
+                  }`}
                 >
                   {page}
                 </PaginationLink>
@@ -129,7 +133,7 @@ export function TablePagination({
               className={
                 currentPage >= totalPages
                   ? "pointer-events-none opacity-50"
-                  : "cursor-pointer"
+                  : "cursor-pointer text-white hover:bg-gray-700"
               }
               aria-disabled={currentPage >= totalPages}
             />

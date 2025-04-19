@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "next-themes";
 import { ThemeToggle } from "./ui/theme-toggle";
-import { env } from "@/app/env/config";
+import { env } from "@/env/config";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {

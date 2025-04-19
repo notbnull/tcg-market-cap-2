@@ -1,4 +1,4 @@
-import { Filters } from "@/app/lib/types";
+import { Filters } from "@/lib/types";
 import { AdvancedFilters } from "./AdvancedFilters";
 import { FilterChips } from "./FilterChips";
 

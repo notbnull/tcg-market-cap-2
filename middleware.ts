@@ -9,17 +9,6 @@ export default clerkMiddleware({
   ...options,
 });
 
-// publishableKey?: string;
-// domain?: string;
-// isSatellite?: boolean;
-// proxyUrl?: string;
-// signInUrl?: string;
-// signUpUrl?: string;
-// afterSignInUrl?: string;
-// afterSignUpUrl?: string;
-// organizationSyncOptions?: OrganizationSyncOptions;
-// apiClient?: ApiClient;
-
 export const config = {
   matcher: [
     // Skip Next.js internals and all static files, unless found in search params

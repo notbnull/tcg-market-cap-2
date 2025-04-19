@@ -1,9 +1,7 @@
 import { loadEnvConfig } from "@next/env";
 
-// Load environment variables
 const { combinedEnv } = loadEnvConfig(process.cwd());
 
-// Type your environment variables
 interface Env {
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: string;
   CLERK_SECRET_KEY: string;
@@ -11,7 +9,6 @@ interface Env {
   MONGODB_DB_NAME: string;
 }
 
-// Create and validate env object
 export const env = {
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
     combinedEnv.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
@@ -20,7 +17,6 @@ export const env = {
   MONGODB_DB_NAME: combinedEnv.MONGODB_DB_NAME,
 } as Env;
 
-// Validate required variables
 Object.entries(env).forEach(([key, value]) => {
   if (!value) {
     throw new Error(`${key} is not defined in environment variables`);

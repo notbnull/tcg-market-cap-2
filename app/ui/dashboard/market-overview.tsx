@@ -1,6 +1,6 @@
 "use client";
 
-import { MarketData } from "@/app/lib/types";
+import { MarketData } from "@/lib/types";
 import {
   Card,
   CardContent,

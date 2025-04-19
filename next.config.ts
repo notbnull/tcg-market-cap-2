@@ -1,12 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  experimental: {
-    ppr: "incremental",
-    esmExternals: "loose",
-  },
   images: {
     unoptimized: true,
+    domains: ["images.pokemontcg.io"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.pokemontcg.io",
+        pathname: "**",
+      },
+    ],
   },
   webpack: (config) => {
     config.experiments = {

@@ -1,7 +1,8 @@
 import { getModelForClass, prop } from "@typegoose/typegoose";
-import setupMongo from "../setup";
-import { Timer } from "@/app/utils/timerDecorator";
+import { Timer } from "@/lib/utils/timerDecorator";
 import mongoose from "mongoose";
+import logger from "@/lib/utils/Logger";
+import { getModel } from "../utils/modelUtils";
 
 class SetImages {
   @prop({ required: true, type: String })
@@ -33,12 +34,20 @@ export class PokemonSet {
   @prop({ type: () => SetImages })
   public images: SetImages;
 
+  // Static schema creation - outside of the class instance
+  private static schemaInstance: mongoose.Schema | undefined;
+
+  private static getSchema(): mongoose.Schema {
+    if (!PokemonSet.schemaInstance) {
+      logger.info("Creating PokemonSet schema for the first time");
+      PokemonSet.schemaInstance = getModelForClass(PokemonSet).schema;
+    }
+    return PokemonSet.schemaInstance;
+  }
+
   @Timer
   public static async getMongoModel(): Promise<mongoose.Model<PokemonSet>> {
-    const db = await setupMongo();
-    if (db.models.PokemonSet) {
-      return db.models.PokemonSet;
-    }
-    return db.model("PokemonSet", getModelForClass(PokemonSet).schema);
+    logger.info("Getting PokemonSet Model");
+    return getModel<PokemonSet>("PokemonSet", () => PokemonSet.getSchema());
   }
 }

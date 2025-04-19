@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FilterBar } from "./filters/FilterBar";
 import { CardList } from "./table/card-list";
 import { TablePagination } from "./table/table-pagination";
-import { CatalogTableProps, Filters } from "@/app/lib/types";
+import { CatalogTableProps, Filters } from "@/lib/types";
 
 export default function CatalogTable({
   query,

@@ -1,6 +1,6 @@
 "use client";
 
-import { Card } from "@/app/lib/types";
+import { Card } from "@/lib/types";
 import {
   Table,
   TableBody,

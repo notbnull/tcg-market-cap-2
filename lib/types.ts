@@ -20,7 +20,8 @@ export type TrendingCard = {
 
 export interface Card {
   _id: string;
-  id: number;
+  id?: number;
+  pokemonTcgApiId?: string;
   name: string;
   set: string;
   number: string;
@@ -31,6 +32,11 @@ export interface Card {
     CGC: number;
   };
   lastSold: string;
+  images?: {
+    small: string;
+    large: string;
+    _id?: string;
+  };
 }
 
 export interface Filters {
@@ -54,3 +60,25 @@ export interface CatalogTableProps {
 
 export type SortDirection = "asc" | "desc";
 export type GradeType = "PSA" | "BGS" | "CGC";
+
+export interface PokemonSet {
+  _id: string;
+  pokemonTcgApiId: string;
+  name: string;
+  series: string;
+  printedTotal: number;
+  total: number;
+  releaseDate: string;
+  images: {
+    _id: string;
+    symbol: string;
+    logo: string;
+  };
+}
+
+export interface SetGridProps {
+  sets: PokemonSet[];
+  currentPage: number;
+  totalSets: number;
+  totalPages: number;
+}

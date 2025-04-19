@@ -3,13 +3,16 @@ import {
   getModelForClass,
   modelOptions,
   Severity,
+  Ref,
 } from "@typegoose/typegoose";
 import mongoose from "mongoose";
-import type { Ref } from "react";
 import { PokemonSet } from "./PokemonSet";
-import setupMongo from "../setup";
-import { Timer } from "@/app/utils/timerDecorator";
-import logger from "../../utils/Logger";
+import { Timer } from "@/lib/utils/timerDecorator";
+import logger from "@/lib/utils/Logger";
+import { getModel } from "../utils/modelUtils";
+
+type ObjectIdString = string;
+
 interface TCGPlayerPrices {
   low?: number;
   mid?: number;
@@ -67,7 +70,7 @@ export class PokemonCard {
   public name: string;
 
   @prop({ ref: () => PokemonSet, required: true })
-  public set: Ref<PokemonSet>;
+  public set: PokemonSet | ObjectIdString;
 
   @prop({ required: true, type: String })
   public number: string;
@@ -91,15 +94,20 @@ export class PokemonCard {
   @prop({ type: () => PriceInfo<CardMarketPrices> })
   public cardmarket?: PriceInfo<CardMarketPrices>;
 
+  // Static schema creation - outside of the class instance
+  private static schemaInstance: mongoose.Schema | undefined;
+
+  private static getSchema(): mongoose.Schema {
+    if (!PokemonCard.schemaInstance) {
+      logger.info("Creating PokemonCard schema for the first time");
+      PokemonCard.schemaInstance = getModelForClass(PokemonCard).schema;
+    }
+    return PokemonCard.schemaInstance;
+  }
+
   @Timer
   public static async getMongoModel(): Promise<mongoose.Model<PokemonCard>> {
-    const db = await setupMongo();
     logger.info("Getting PokemonCard Model");
-    if (db.models.PokemonCard) {
-      logger.info("PokemonCard Model already exists");
-      return db.models.PokemonCard;
-    }
-    logger.info("Creating PokemonCard Model");
-    return db.model("PokemonCard", getModelForClass(PokemonCard).schema);
+    return getModel<PokemonCard>("PokemonCard", () => PokemonCard.getSchema());
   }
 }
