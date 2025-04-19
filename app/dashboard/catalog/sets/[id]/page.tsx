@@ -199,10 +199,10 @@ export default async function SetPage({
             )}
 
             <div className="flex items-center gap-3">
-              <div className="text-sm bg-gray-800 px-3 py-1 rounded-full">
+              <div className="text-sm px-3 py-1 rounded-full">
                 {set.series} Series
               </div>
-              <div className="text-sm bg-gray-800 px-3 py-1 rounded-full">
+              <div className="text-sm px-3 py-1 rounded-full">
                 {set.total} cards
               </div>
             </div>
@@ -211,7 +211,7 @@ export default async function SetPage({
           {/* Market Data and Metrics Row */}
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
             {/* Market Cap */}
-            <div className="bg-gray-900 rounded-xl p-5 shadow-lg">
+            <div className="rounded-xl p-5 shadow-lg">
               <p className="text-gray-400 text-sm mb-1">Market Cap</p>
               <div className="flex items-baseline gap-3">
                 <h2 className="text-3xl font-bold">
@@ -235,13 +235,13 @@ export default async function SetPage({
             </div>
 
             {/* 24h Volume */}
-            <div className="bg-gray-900 rounded-xl p-5 shadow-lg">
+            <div className=" rounded-xl p-5 shadow-lg">
               <p className="text-gray-400 text-sm mb-1">24h Volume</p>
               <p className="text-2xl font-medium">{marketData.volume24h}</p>
             </div>
 
             {/* Performance */}
-            <div className="bg-gray-900 rounded-xl p-5 shadow-lg">
+            <div className=" rounded-xl p-5 shadow-lg">
               <p className="text-gray-400 text-sm mb-2">Performance</p>
               <div className="flex justify-between items-center mb-2">
                 <p className="text-sm text-gray-400">7d</p>
@@ -278,7 +278,7 @@ export default async function SetPage({
             </div>
 
             {/* Highest Value Card Section */}
-            <div className="bg-gray-900 rounded-xl p-5 shadow-lg">
+            <div className=" rounded-xl p-5 shadow-lg">
               <p className="text-gray-400 text-sm mb-2">Highest Value Card</p>
               <div className="flex items-center">
                 {cardData.cards[0]?.images?.small && (
@@ -308,12 +308,12 @@ export default async function SetPage({
         </div>
 
         {/* Cards List - Vertical Layout */}
-        <Card className="border-0 bg-gray-900 shadow-xl">
+        <Card className="border-0 shadow-xl">
           <CardContent className="p-0">
             <Suspense
               fallback={<div className="p-6 text-center">Loading cards...</div>}
             >
-              <div className="divide-y divide-gray-800 max-h-[600px] overflow-y-auto">
+              <div className=" max-h-[600px] overflow-y-auto">
                 {cardData.cards.map((card) => (
                   <div
                     key={card._id}

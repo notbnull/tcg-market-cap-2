@@ -3,7 +3,7 @@
   "author": "notbnull",
   "scripts": {
     "build": "next build",
-    "dev": "next dev --turbo",
+    "dev": "next dev --turbopack",
     "start": "next start --keepAliveTimeout 70000",
     "lint": "next lint"
   },

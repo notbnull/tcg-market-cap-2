@@ -44,7 +44,7 @@ const CustomTooltip = ({
 }: TooltipProps<ValueType, NameType>) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-gray-800 p-2 rounded border border-gray-700 text-xs">
+      <div className=" p-2 rounded border border-gray-700 text-xs">
         <p className="text-gray-300 mb-1">{label}</p>
         <p className="text-green-500 font-bold">
           {PriceFormatter(payload[0].value as number)}
@@ -89,7 +89,7 @@ export default function PriceChart({
 
   if (!isClient) {
     return (
-      <div className="w-full h-full bg-gray-900 opacity-70">
+      <div className="w-full h-full  opacity-70">
         <div className="flex h-full items-center justify-center">
           <div className="animate-pulse text-gray-400 text-sm">
             Loading chart...

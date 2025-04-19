@@ -15,10 +15,7 @@ interface ChartContainerProps {
 
 export default function ChartContainer({ data }: ChartContainerProps) {
   return (
-    <div
-      className="w-full bg-gray-900 rounded-lg p-4"
-      style={{ height: "300px" }}
-    >
+    <div className="w-full rounded-lg p-4" style={{ height: "300px" }}>
       <div style={{ height: "100%", width: "100%" }}>
         <PriceChart data={data} />
       </div>
