@@ -5,7 +5,8 @@ import logger from "@/lib/utils/Logger";
 /**
  * Cache for model instances and schemas to prevent recompilation
  */
-const modelCache = new Map<string, mongoose.Model<unknown>>();
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const modelCache = new Map<string, any>();
 const schemaCache = new Map<string, mongoose.Schema>();
 
 /**
