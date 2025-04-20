@@ -111,14 +111,34 @@ export default class ModelRegistry {
   private registerModel<T extends typeof PokemonCard | typeof PokemonSet>(
     ModelClass: T
   ): ReturnModelType<T, object> {
-    const model = getModelForClass(ModelClass);
+    try {
+      // Check if model already exists in mongoose models
+      const modelName = ModelClass.name;
+      if (mongoose.models[modelName]) {
+        logger.debug(`Using existing model: ${modelName}`);
+        return mongoose.models[modelName] as ReturnModelType<T, object>;
+      }
 
-    // Apply plugins to the schema
-    const schema = model.schema;
-    addSerializationOptionsPlugin(schema);
-    schemaVersionPlugin(schema);
+      // If not, create a new model
+      const model = getModelForClass(ModelClass);
 
-    return model;
+      // Apply plugins to the schema
+      const schema = model.schema;
+      addSerializationOptionsPlugin(schema);
+      schemaVersionPlugin(schema);
+
+      return model;
+    } catch (err) {
+      logger.error(`Error registering model: ${err}`);
+
+      // If error occurs but model exists, return the existing model
+      const modelName = ModelClass.name;
+      if (mongoose.models[modelName]) {
+        return mongoose.models[modelName] as ReturnModelType<T, object>;
+      }
+
+      throw err;
+    }
   }
 
   // Lazy model loader methods

@@ -15,7 +15,7 @@ export function CardRow({ cards }: CardRowProps) {
   return (
     <CardUI className="border-0">
       <CardContent className="p-0">
-        <div className="divide-y divide-gray-800 h-[300px] overflow-y-auto overscroll-contain">
+        <div className="divide-y divide-gray-800 h-[500px] overflow-y-auto overscroll-contain">
           {cards.map((card) => (
             <Link
               key={card._id}
