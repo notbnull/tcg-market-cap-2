@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import logger from "@/lib/utils/Logger";
-import { PokemonCard } from "@/mongodb/models/PokemonCard";
 import mongoose from "mongoose";
+import { MongoDbModels } from "@/mongodb";
+interface QueryOptions {
+  page?: number;
+  limit?: number;
+  sortColumn?: string;
+  sortDirection?: "asc" | "desc";
+  filter?: Record<string, any>;
+}
 
 export async function fetchCards({
   page = 1,
@@ -9,13 +16,7 @@ export async function fetchCards({
   sortColumn = "name",
   sortDirection = "asc",
   filter = {},
-}: {
-  page?: number;
-  limit?: number;
-  sortColumn?: string;
-  sortDirection?: "asc" | "desc";
-  filter?: Record<string, any>;
-}) {
+}: QueryOptions) {
   const sort: { [key: string]: 1 | -1 } = {
     [sortColumn]: sortDirection === "asc" ? 1 : -1,
   };
@@ -35,17 +36,21 @@ export async function fetchCards({
   logger.info(`Query filter: ${JSON.stringify(queryFilter)}`);
 
   try {
-    const PokemonCardModel = await PokemonCard.getMongoModel();
-    logger.info("Getting PokemonCard Model");
-
+    const { PokemonCardModel } = await MongoDbModels();
     // Output the collection name to ensure we're querying the right collection
     logger.info(`Collection name: ${PokemonCardModel.collection.name}`);
 
+    // Get total count first
+    const totalCards = await PokemonCardModel.countDocuments(queryFilter);
+    logger.info(`Total cards: ${totalCards}`);
+
+    // Then fetch the cards
     const cards = await PokemonCardModel.find(queryFilter)
       .sort(sort)
+      .populate("set")
       .skip((page - 1) * limit)
       .limit(limit)
-      .lean();
+      .lean({ virtuals: true, autopopulate: true });
 
     logger.info(`Fetched ${cards.length} cards`);
 
@@ -55,32 +60,8 @@ export async function fetchCards({
       logger.info("No cards found for this filter");
     }
 
-    const totalCards = await PokemonCardModel.countDocuments(queryFilter);
-    logger.info(`Total cards: ${totalCards}`);
-
-    const plainCards = cards.map((card: any) => ({
-      ...card,
-      _id: card._id.toString(),
-      set: card.set.toString(),
-      cardmarket: card.cardmarket
-        ? {
-            ...card.cardmarket,
-            _id: card?.cardmarket?._id?.toString() ?? "",
-          }
-        : undefined,
-      tcgplayer: card.tcgplayer
-        ? {
-            ...card.tcgplayer,
-            _id: card?.tcgplayer?._id?.toString() ?? "",
-          }
-        : undefined,
-      images: card.images
-        ? {
-            ...card.images,
-            _id: card?.images?._id?.toString() ?? "",
-          }
-        : undefined,
-    }));
+    // Convert mongoose ObjectIds to strings using JSON serialization
+    const plainCards = JSON.parse(JSON.stringify(cards));
 
     return { cards: plainCards, totalCards };
   } catch (error) {

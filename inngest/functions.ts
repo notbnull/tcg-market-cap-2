@@ -1,4 +1,3 @@
-import setupMongo from "@/mongodb/setup";
 import { inngest } from "./client";
 
 export const helloWorld = inngest.createFunction(
@@ -31,7 +30,11 @@ export const connectToMongo = inngest.createFunction(
   { id: "connect-to-mongo" },
   { event: "connect/to-mongo" },
   async ({ event, step }) => {
-    const db = await setupMongo();
-    return db;
+    const { MongoDbModels } = await import("@/mongodb");
+    const { PokemonCardModel, PokemonSetModel } = await MongoDbModels();
+    return {
+      PokemonCardModel,
+      PokemonSetModel,
+    };
   }
 );

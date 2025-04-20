@@ -1,8 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { Card, CardContent, CardHeader } from "@/app/ui/components/card";
-import { PokemonSet } from "@/mongodb/models/PokemonSet";
-import { PokemonCard } from "@/mongodb/models/PokemonCard";
+import { Card, CardContent } from "@/app/ui/components/card";
 import { Button } from "@/app/ui/components/button";
 import {
   ArrowLeftIcon,
@@ -11,13 +9,12 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
 import logger from "@/lib/utils/Logger";
-import { env } from "@/env/config";
-import setupMongo from "@/mongodb/setup";
 import ChartContainer from "@/app/ui/components/charts/chart-container";
 import CardThumbnail from "@/app/ui/components/cards/card-thumbnail";
+import { MongoDbModels } from "@/mongodb";
 
 async function getSet(id: string) {
-  const PokemonSetModel = await PokemonSet.getMongoModel();
+  const { PokemonSetModel } = await MongoDbModels();
   const set = await PokemonSetModel.findOne({ pokemonTcgApiId: id }).lean();
   logger.info(`Set: ${JSON.stringify(set)}`);
   if (!set) {
@@ -32,26 +29,7 @@ async function getSet(id: string) {
 
 async function getCardsBySetId(setId: string) {
   try {
-    // Add diagnostics for MongoDB connection
-    logger.info("Starting MongoDB diagnostics...");
-    logger.info(`Environment MONGODB_DB_NAME: ${env.MONGODB_DB_NAME}`);
-
-    // Get a direct connection
-    const directConnection = await setupMongo();
-    logger.info(
-      `Direct connection db name: ${directConnection.db?.databaseName}`
-    );
-
-    // Get the PokemonCard model using the updated getMongoModel method
-    const PokemonCardModel = await PokemonCard.getMongoModel();
-    logger.info(`Model collection name: ${PokemonCardModel.collection.name}`);
-    logger.info(
-      `Model collection db: ${PokemonCardModel.collection.conn.db?.databaseName}`
-    );
-
-    logger.info(`Looking for cards with set ID: ${setId} (ObjectId: ${setId})`);
-
-    // Check if any cards exist at all
+    const { PokemonCardModel } = await MongoDbModels();
     const totalCardsInCollection =
       await PokemonCardModel.estimatedDocumentCount();
     logger.info(`Total cards in collection: ${totalCardsInCollection}`);
@@ -315,62 +293,65 @@ export default async function SetPage({
             >
               <div className=" max-h-[600px] overflow-y-auto">
                 {cardData.cards.map((card) => (
-                  <div
+                  <Link
                     key={card._id}
-                    className="relative cursor-pointer hover:bg-gray-800 transition-colors duration-200"
+                    href={`/dashboard/catalog/cards/${card.pokemonTcgApiId}`}
+                    className="block"
                   >
-                    <div className="p-4 flex items-center">
-                      {/* Card Image Thumbnail with Hover using the new component */}
-                      {card.images?.small && (
-                        <CardThumbnail
-                          smallImageUrl={card.images.small}
-                          largeImageUrl={card.images.large}
-                          altText={card.name}
-                          className="mr-4"
-                        />
-                      )}
+                    <div className="relative cursor-pointer hover:bg-gray-800 transition-colors duration-200">
+                      <div className="p-4 flex items-center">
+                        {/* Card Image Thumbnail with Hover using the new component */}
+                        {card.images?.small && (
+                          <CardThumbnail
+                            smallImageUrl={card.images.small}
+                            largeImageUrl={card.images.large}
+                            altText={card.name}
+                            className="mr-4"
+                          />
+                        )}
 
-                      {/* Card Info */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center">
-                          <p className="font-medium truncate mr-2">
-                            {card.name}
-                          </p>
-                          <span className="text-xs text-gray-400">
-                            #{card.number}
-                          </span>
+                        {/* Card Info */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center">
+                            <p className="font-medium truncate mr-2">
+                              {card.name}
+                            </p>
+                            <span className="text-xs text-gray-400">
+                              #{card.number}
+                            </span>
+                          </div>
+                          <p className="text-xs text-gray-400">{card.rarity}</p>
                         </div>
-                        <p className="text-xs text-gray-400">{card.rarity}</p>
-                      </div>
 
-                      {/* PSA 10 Value */}
-                      <div className="text-right px-3 min-w-[120px]">
-                        <p className="text-green-500 font-medium">
-                          ${card.marketCap.PSA10}
-                        </p>
-                        <p className="text-xs text-gray-400">PSA 10</p>
-                      </div>
+                        {/* PSA 10 Value */}
+                        <div className="text-right px-3 min-w-[120px]">
+                          <p className="text-green-500 font-medium">
+                            ${card.marketCap.PSA10}
+                          </p>
+                          <p className="text-xs text-gray-400">PSA 10</p>
+                        </div>
 
-                      {/* Raw Value */}
-                      <div className="text-right px-3 min-w-[120px]">
-                        <p className="text-blue-400 font-medium">
-                          ${card.marketCap.Raw}
-                        </p>
-                        <p className="text-xs text-gray-400">Raw</p>
-                      </div>
+                        {/* Raw Value */}
+                        <div className="text-right px-3 min-w-[120px]">
+                          <p className="text-blue-400 font-medium">
+                            ${card.marketCap.Raw}
+                          </p>
+                          <p className="text-xs text-gray-400">Raw</p>
+                        </div>
 
-                      {/* Last Sold */}
-                      <div className="text-right px-3 min-w-[80px]">
-                        <p className="text-gray-300 font-medium">
-                          {card.lastSold}
-                        </p>
-                        <p className="text-xs text-gray-400">Last Sold</p>
-                      </div>
+                        {/* Last Sold */}
+                        <div className="text-right px-3 min-w-[80px]">
+                          <p className="text-gray-300 font-medium">
+                            {card.lastSold}
+                          </p>
+                          <p className="text-xs text-gray-400">Last Sold</p>
+                        </div>
 
-                      {/* Chevron */}
-                      <ChevronRightIcon className="w-5 h-5 text-gray-400 ml-2" />
+                        {/* Chevron */}
+                        <ChevronRightIcon className="w-5 h-5 text-gray-400 ml-2" />
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </Suspense>

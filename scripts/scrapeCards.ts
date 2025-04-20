@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose";
 import { Types } from "mongoose";
-import { PokemonCard } from "@/mongodb/models/PokemonCard";
-import { PokemonSet } from "@/mongodb/models/PokemonSet";
+import { PokemonCard } from "@/mongodb/models/PokemonCard/PokemonCard";
+import { PokemonSet } from "@/mongodb/models/PokemonSet/PokemonSet";
 
 // Define interfaces for better type safety
 interface PokemonCardData {

@@ -30,7 +30,7 @@ export default async function Page(props: {
   const cardLayout = searchParams?.cardLayout || "row"; // Default to row layout for cards
 
   // Set different default limits for sets and cards
-  const limit = Number(searchParams?.limit) || (view === "sets" ? 12 : 24);
+  const limit = Number(searchParams?.limit) || (view === "sets" ? 12 : 25);
 
   // Different default sort options for sets and cards
   const defaultSortColumn = view === "sets" ? "releaseDate" : "name";
@@ -93,7 +93,7 @@ export default async function Page(props: {
   };
 
   return (
-    <div className="bg-black h-full">
+    <div className="h-full">
       <div className="max-w-7xl mx-auto">
         <div className="mb-4">
           <h2 className="text-2xl font-bold text-white">Pokémon TCG Catalog</h2>
@@ -103,9 +103,9 @@ export default async function Page(props: {
             <div className="flex space-x-2 space-x-4">
               <a
                 href={getTabUrl("sets")}
-                className={`text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium ${
+                className={`text-gray-300 hover:bg-gray-900 hover:text-white px-3 py-2 rounded-md text-sm font-medium ${
                   view === "sets"
-                    ? "bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white"
+                    ? "bg-gray-900 text-white border-b-2 border-blue-500"
                     : ""
                 }`}
               >
@@ -113,9 +113,9 @@ export default async function Page(props: {
               </a>
               <a
                 href={getTabUrl("cards")}
-                className={`text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium ${
+                className={`text-gray-300 hover:bg-gray-900 hover:text-white px-3 py-2 rounded-md text-sm font-medium ${
                   view === "cards"
-                    ? "bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white"
+                    ? "bg-gray-900 text-white border-b-2 border-blue-500"
                     : ""
                 }`}
               >
@@ -125,13 +125,13 @@ export default async function Page(props: {
 
             {/* Layout toggle for cards view */}
             {view === "cards" && (
-              <div className="flex gap-2 bg-gray-800 p-1 rounded-md">
+              <div className="flex gap-2 bg-gray-900 p-1 rounded-md border border-gray-800">
                 <a
                   href={getLayoutUrl("grid")}
                   className={`p-1.5 rounded-md transition-colors ${
                     cardLayout === "grid"
-                      ? "bg-blue-900 text-white"
-                      : "text-gray-400 hover:text-white"
+                      ? "bg-blue-700 text-white"
+                      : "text-gray-300 hover:text-white hover:bg-gray-800"
                   }`}
                   title="Grid View"
                 >
@@ -141,8 +141,8 @@ export default async function Page(props: {
                   href={getLayoutUrl("row")}
                   className={`p-1.5 rounded-md transition-colors ${
                     cardLayout === "row"
-                      ? "bg-blue-900 text-white"
-                      : "text-gray-400 hover:text-white"
+                      ? "bg-blue-700 text-white"
+                      : "text-gray-300 hover:text-white hover:bg-gray-800"
                   }`}
                   title="List View"
                 >

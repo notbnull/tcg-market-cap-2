@@ -42,7 +42,7 @@ export default function CardThumbnail({
           style={{ opacity: showPreview ? 1 : 0 }}
         >
           <div
-            className="rounded-lg overflow-hidden border-2 border-gray-700 shadow-2xl bg-black"
+            className="rounded-lg overflow-hidden border-2 border-gray-300 dark:border-gray-700 shadow-2xl bg-white dark:bg-black"
             style={{
               width: "350px",
               maxWidth: "90vw",

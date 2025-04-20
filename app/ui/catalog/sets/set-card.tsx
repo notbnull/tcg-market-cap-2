@@ -16,24 +16,24 @@ export function SetCard({ set }: SetCardProps) {
 
   return (
     <Link href={`/dashboard/catalog/sets/${set.pokemonTcgApiId}`}>
-      <Card className="h-[320px] overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-gray-800/60 backdrop-blur-md border border-gray-700/50 rounded-xl flex flex-col">
+      <Card className="h-[220px] overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] rounded-xl flex flex-col border border-gray-800 dark:border-gray-800">
         {/* Fixed height header */}
-        <div className="relative h-[160px] overflow-hidden flex-shrink-0">
-          {/* Background gradient with subtle pattern */}
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/90 via-purple-600/90 to-pink-600/90 opacity-80"></div>
-
-          {/* Subtle pattern overlay */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[length:12px_12px] opacity-30"></div>
-
+        <div className="relative h-[110px] overflow-hidden flex-shrink-0 bg-gray-100 dark:bg-black">
           {/* Set logo container with aspect ratio preservation */}
           <div className="relative h-full w-full flex items-center justify-center p-4 z-10">
-            <div className="relative w-auto h-auto max-w-[85%] max-h-[85%]">
+            <div className="relative max-w-full max-h-full flex items-center justify-center">
               <Image
                 src={set.images.logo.toString()}
                 alt={`${set.name} logo`}
-                width={240}
+                width={200}
                 height={80}
-                style={{ objectFit: "contain", width: "auto", height: "auto" }}
+                style={{
+                  objectFit: "contain",
+                  width: "auto",
+                  height: "auto",
+                  maxWidth: "100%",
+                  maxHeight: "80px",
+                }}
                 unoptimized
                 loading="eager"
                 className="drop-shadow-lg z-10"
@@ -49,13 +49,13 @@ export function SetCard({ set }: SetCardProps) {
             </div>
 
             {/* Fallback for logo */}
-            <div className="fallback-name hidden text-white text-xl font-bold p-4 text-center drop-shadow-lg z-10">
+            <div className="fallback-name hidden text-gray-900 dark:text-white text-xl font-bold p-4 text-center drop-shadow-lg z-10">
               {set.name}
             </div>
           </div>
 
           {/* Set symbol positioned in the top right */}
-          <div className="absolute top-3 right-3 w-8 h-8 z-20 bg-white/10 backdrop-blur-md rounded-full p-1 flex items-center justify-center shadow-lg">
+          <div className="absolute top-3 right-3 w-8 h-8 z-20 bg-black/10 dark:bg-white/20 backdrop-blur-md rounded-full p-1 flex items-center justify-center shadow-lg">
             <Image
               src={set.images.symbol}
               alt={`${set.name} symbol`}
@@ -73,29 +73,27 @@ export function SetCard({ set }: SetCardProps) {
                   ?.classList.remove("hidden");
               }}
             />
-            <div className="fallback-symbol hidden text-white text-xs font-bold">
+            <div className="fallback-symbol hidden text-gray-900 dark:text-white text-xs font-bold">
               {set.name.substring(0, 1)}
             </div>
           </div>
         </div>
 
-        {/* Fixed height content area */}
-        <CardContent className="p-4 flex-1 flex flex-col justify-between h-[160px]">
-          <div className="flex flex-col">
-            <h3 className="font-semibold text-lg truncate text-white">
-              {set.name}
-            </h3>
-            <p className="text-sm text-gray-300 font-medium">
-              {set.series} Series
-            </p>
-          </div>
+        {/* Content area */}
+        <CardContent className="p-4 bg-gray-50 dark:bg-black flex flex-col h-[110px] overflow-hidden">
+          <h3 className="font-semibold text-lg truncate text-gray-900 dark:text-white">
+            {set.name}
+          </h3>
+          <p className="text-sm text-gray-600 dark:text-gray-300 font-medium truncate">
+            {set.series} Series
+          </p>
 
-          <div className="flex justify-between items-center pt-2 border-t border-gray-700/50 mt-auto">
-            <div className="flex items-center text-sm text-gray-400">
+          <div className="flex justify-between items-center pt-2 mt-2 border-t border-gray-200 dark:border-gray-800">
+            <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
               <span className="font-medium">{set.total}</span>
               <span className="ml-1">cards</span>
             </div>
-            <span className="text-sm text-gray-400">
+            <span className="text-sm text-gray-600 dark:text-gray-300">
               Released {releaseDateFormatted}
             </span>
           </div>

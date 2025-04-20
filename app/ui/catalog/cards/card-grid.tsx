@@ -18,8 +18,8 @@ export function CardGrid({ cards }: CardGridProps) {
           href={`/dashboard/catalog/cards/${card.pokemonTcgApiId || card.id}`}
           className="transition-transform hover:scale-[1.03]"
         >
-          <CardUI className="h-full overflow-hidden dark:bg-gray-800/60 backdrop-blur-sm hover:shadow-md">
-            <div className="relative aspect-[2.5/3.5] w-full bg-gray-100 dark:bg-gray-700">
+          <CardUI className="h-full overflow-hidden backdrop-blur-sm hover:shadow-md border border-gray-200 dark:border-gray-800">
+            <div className="relative aspect-[2.5/3.5] w-full bg-gray-100 dark:bg-black">
               {card.images && (card.images.small || card.images.large) && (
                 <Image
                   src={card.images.small || card.images.large}
@@ -30,14 +30,16 @@ export function CardGrid({ cards }: CardGridProps) {
                 />
               )}
               {(!card.images || (!card.images.small && !card.images.large)) && (
-                <div className="absolute inset-0 flex items-center justify-center text-gray-400">
+                <div className="absolute inset-0 flex items-center justify-center text-gray-500 dark:text-gray-300">
                   No image
                 </div>
               )}
             </div>
-            <CardContent className="p-2">
-              <div className="text-xs font-medium truncate">{card.name}</div>
-              <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+            <CardContent className="p-2 bg-gray-50 dark:bg-black">
+              <div className="text-xs font-medium truncate text-gray-900 dark:text-white">
+                {card.name}
+              </div>
+              <div className="flex justify-between text-xs text-gray-600 dark:text-gray-300">
                 <span>{card.number}</span>
                 <span>{card.rarity}</span>
               </div>

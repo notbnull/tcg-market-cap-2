@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { PokemonCard } from "@/mongodb/models/PokemonCard";
-import { PokemonSet } from "@/mongodb/models/PokemonSet";
+import { PokemonCard } from "@/mongodb/models/PokemonCard/PokemonCard";
+import { PokemonSet } from "@/mongodb/models/PokemonSet/PokemonSet";
 import mongoose from "mongoose";
 
 // Helper function to validate and fix image URLs

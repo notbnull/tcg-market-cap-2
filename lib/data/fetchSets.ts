@@ -1,6 +1,6 @@
 import logger from "@/lib/utils/Logger";
-import { PokemonSet } from "@/mongodb/models/PokemonSet";
 import type { PokemonSet as PokemonSetType } from "@/lib/types";
+import { MongoDbModels } from "@/mongodb";
 
 export async function fetchSets({
   page = 1,
@@ -27,9 +27,7 @@ export async function fetchSets({
     logger.info(`Searching sets with name matching: ${query}`);
   }
 
-  const PokemonSetModel = await PokemonSet.getMongoModel();
-  logger.info("Getting PokemonSet Model");
-
+  const { PokemonSetModel } = await MongoDbModels();
   const sets = await PokemonSetModel.find(filter)
     .sort(sort)
     .skip((page - 1) * limit)

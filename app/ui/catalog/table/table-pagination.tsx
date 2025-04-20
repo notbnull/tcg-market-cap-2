@@ -83,7 +83,7 @@ export function TablePagination({
 
   return (
     <div className="mt-2 space-y-1">
-      <div className="text-xs text-gray-400 text-center">
+      <div className="text-xs text-gray-300 text-center">
         Showing {startItem} to {endItem} of {totalItems} items
       </div>
       <Pagination>
@@ -96,7 +96,7 @@ export function TablePagination({
               className={
                 currentPage <= 1
                   ? "pointer-events-none opacity-50"
-                  : "cursor-pointer text-white hover:bg-gray-700"
+                  : "cursor-pointer text-white hover:bg-gray-800 border border-gray-800"
               }
               aria-disabled={currentPage <= 1}
             />
@@ -108,15 +108,15 @@ export function TablePagination({
               className="sm:inline-block"
             >
               {page === "ellipsis" ? (
-                <PaginationEllipsis className="text-gray-400" />
+                <PaginationEllipsis className="text-gray-300" />
               ) : (
                 <PaginationLink
                   isActive={currentPage === page}
                   onClick={() => handlePageChange(page)}
                   className={`cursor-pointer ${
                     currentPage === page
-                      ? "bg-purple-600 text-white hover:bg-purple-700"
-                      : "text-white hover:bg-gray-700"
+                      ? "bg-blue-700 text-white hover:bg-blue-800 border border-blue-600"
+                      : "text-white hover:bg-gray-800 border border-gray-800"
                   }`}
                 >
                   {page}
@@ -133,7 +133,7 @@ export function TablePagination({
               className={
                 currentPage >= totalPages
                   ? "pointer-events-none opacity-50"
-                  : "cursor-pointer text-white hover:bg-gray-700"
+                  : "cursor-pointer text-white hover:bg-gray-800 border border-gray-800"
               }
               aria-disabled={currentPage >= totalPages}
             />
