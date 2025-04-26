@@ -8,6 +8,9 @@ import logger from "@/lib/utils/Logger";
 // Import model classes
 import { PokemonCard } from "./models/PokemonCard/PokemonCard";
 import { PokemonSet } from "./models/PokemonSet/PokemonSet";
+import { TCGPlayerPriceHistory } from "./models/PriceHistory/TCGPlayerPriceHistory/TCGPlayerPriceHistory";
+import { CardMarketPriceHistory } from "./models/PriceHistory/CardMarketPriceHistory/CardMarketPriceHistory";
+import { MigrationHistory } from "./models/MigrationHistory/MigrationHistory";
 
 const MONGODB_URI = env.MONGODB_URI;
 const MONGODB_DB_NAME = env.MONGODB_DB_NAME;
@@ -29,6 +32,18 @@ export default class ModelRegistry {
   > | null = null;
   private _pokemonSetModel: ReturnModelType<typeof PokemonSet, object> | null =
     null;
+  private _cardMarketPriceHistoryModel: ReturnModelType<
+    typeof CardMarketPriceHistory,
+    object
+  > | null = null;
+  private _tcgPlayerPriceHistoryModel: ReturnModelType<
+    typeof TCGPlayerPriceHistory,
+    object
+  > | null = null;
+  private _migrationHistoryModel: ReturnModelType<
+    typeof MigrationHistory,
+    object
+  > | null = null;
 
   private constructor() {}
 
@@ -59,6 +74,13 @@ export default class ModelRegistry {
     // Register models with plugins
     this._pokemonCardModel = this.registerModel(PokemonCard);
     this._pokemonSetModel = this.registerModel(PokemonSet);
+    this._cardMarketPriceHistoryModel = this.registerModel(
+      CardMarketPriceHistory
+    );
+    this._tcgPlayerPriceHistoryModel = this.registerModel(
+      TCGPlayerPriceHistory
+    );
+    this._migrationHistoryModel = this.registerModel(MigrationHistory);
 
     this._isInitialized = true;
 
@@ -106,9 +128,14 @@ export default class ModelRegistry {
     return this._connectionPromise;
   }
 
-  private registerModel<T extends typeof PokemonCard | typeof PokemonSet>(
-    ModelClass: T
-  ): ReturnModelType<T, object> {
+  private registerModel<
+    T extends
+      | typeof PokemonCard
+      | typeof PokemonSet
+      | typeof CardMarketPriceHistory
+      | typeof TCGPlayerPriceHistory
+      | typeof MigrationHistory
+  >(ModelClass: T): ReturnModelType<T, object> {
     try {
       // Check if model already exists in mongoose models
       const modelName = ModelClass.name;
@@ -139,75 +166,6 @@ export default class ModelRegistry {
     }
   }
 
-  // Lazy model loader methods
-  public getLazyPokemonCardModel(
-    initFn: InitializerFn
-  ): ReturnModelType<typeof PokemonCard, object> {
-    // Create a proxy that initializes the connection on first use
-    const handler = {
-      get: (target: unknown, prop: string | symbol) => {
-        // Initialize if needed
-        if (!this._isInitialized || !this._isConnected) {
-          // Don't await - we want this to happen in the background
-          // This lazy initializes the connection
-          initFn().catch((err) => {
-            logger.error(`Lazy initialization error: ${err}`);
-          });
-        }
-
-        // Return the property from the real model
-        // This works for methods and properties
-        if (!this._pokemonCardModel) {
-          throw new Error("PokemonCard model not initialized");
-        }
-
-        const value = Reflect.get(this._pokemonCardModel, prop);
-        if (typeof value === "function") {
-          // For methods, bind them to the original model
-          return value.bind(this._pokemonCardModel);
-        }
-        return value;
-      },
-    };
-
-    // @ts-expect-error - we're using a proxy to lazily initialize
-    return new Proxy({}, handler);
-  }
-
-  public getLazyPokemonSetModel(
-    initFn: InitializerFn
-  ): ReturnModelType<typeof PokemonSet, object> {
-    // Create a proxy that initializes the connection on first use
-    const handler = {
-      get: (target: unknown, prop: string | symbol) => {
-        // Initialize if needed
-        if (!this._isInitialized || !this._isConnected) {
-          // Don't await - we want this to happen in the background
-          // This lazy initializes the connection
-          initFn().catch((err) => {
-            logger.error(`Lazy initialization error: ${err}`);
-          });
-        }
-
-        // Return the property from the real model
-        // This works for methods and properties
-        if (!this._pokemonSetModel) {
-          throw new Error("PokemonSet model not initialized");
-        }
-
-        const value = Reflect.get(this._pokemonSetModel, prop);
-        if (typeof value === "function") {
-          // For methods, bind them to the original model
-          return value.bind(this._pokemonSetModel);
-        }
-        return value;
-      },
-    };
-
-    // @ts-expect-error - we're using a proxy to lazily initialize
-    return new Proxy({}, handler);
-  }
-
   // Getters for models with connection handling
   public get PokemonCardModel(): ReturnModelType<typeof PokemonCard, object> {
     if (!this._isInitialized) {
@@ -235,5 +193,36 @@ export default class ModelRegistry {
     }
 
     return this._pokemonSetModel!;
+  }
+
+  public get CardMarketPriceHistoryModel(): ReturnModelType<
+    typeof CardMarketPriceHistory,
+    object
+  > {
+    return this._cardMarketPriceHistoryModel!;
+  }
+
+  public get TCGPlayerPriceHistoryModel(): ReturnModelType<
+    typeof TCGPlayerPriceHistory,
+    object
+  > {
+    return this._tcgPlayerPriceHistoryModel!;
+  }
+
+  public get MigrationHistoryModel(): ReturnModelType<
+    typeof MigrationHistory,
+    object
+  > {
+    if (!this._isInitialized) {
+      throw new Error("ModelRegistry not initialized. Call init() first");
+    }
+
+    if (!this._isConnected) {
+      this.connect().catch((err) => {
+        logger.error(`Failed to connect to MongoDB: ${err}`);
+      });
+    }
+
+    return this._migrationHistoryModel!;
   }
 }

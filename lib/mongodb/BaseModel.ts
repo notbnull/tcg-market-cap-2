@@ -80,9 +80,7 @@ export abstract class BaseModel implements IBaseModel {
     },
   },
 })
-export abstract class BaseModelNoTimestamps
-  implements Omit<IBaseModel, "createdAt" | "updatedAt">
-{
+export abstract class BaseModelNoTimestamps implements IBaseModelNoTimestamps {
   @prop({ type: Types.ObjectId, auto: true })
   public _id!: Types.ObjectId | string;
 }

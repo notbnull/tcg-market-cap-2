@@ -2,12 +2,24 @@ import ModelRegistry from "./registry";
 import { ReturnModelType } from "@typegoose/typegoose";
 import { PokemonCard } from "./models/PokemonCard/PokemonCard";
 import { PokemonSet } from "./models/PokemonSet/PokemonSet";
+import { CardMarketPriceHistory } from "./models/PriceHistory/CardMarketPriceHistory/CardMarketPriceHistory";
+import { TCGPlayerPriceHistory } from "./models/PriceHistory/TCGPlayerPriceHistory/TCGPlayerPriceHistory";
+import { MigrationHistory } from "./models/MigrationHistory/MigrationHistory";
 
 export const getModelRegistry = () => ModelRegistry.getInstance();
 
 export interface MongoModels {
   PokemonCardModel: ReturnModelType<typeof PokemonCard, object>;
   PokemonSetModel: ReturnModelType<typeof PokemonSet, object>;
+  CardMarketPriceHistoryModel: ReturnModelType<
+    typeof CardMarketPriceHistory,
+    object
+  >;
+  TCGPlayerPriceHistoryModel: ReturnModelType<
+    typeof TCGPlayerPriceHistory,
+    object
+  >;
+  MigrationHistoryModel: ReturnModelType<typeof MigrationHistory, object>;
 }
 
 // Cache for the initialized models
@@ -35,6 +47,9 @@ export async function MongoDbModels(): Promise<MongoModels> {
   modelsCache = {
     PokemonCardModel: registry.PokemonCardModel,
     PokemonSetModel: registry.PokemonSetModel,
+    CardMarketPriceHistoryModel: registry.CardMarketPriceHistoryModel,
+    TCGPlayerPriceHistoryModel: registry.TCGPlayerPriceHistoryModel,
+    MigrationHistoryModel: registry.MigrationHistoryModel,
   };
 
   return modelsCache;

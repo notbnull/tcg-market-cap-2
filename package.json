@@ -5,7 +5,9 @@
     "build": "next build",
     "dev": "rimraf .next && next dev --turbopack",
     "start": "next start --keepAliveTimeout 70000",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrations:generate": "tsx scripts/migrationCommands.ts generate",
+    "migrations:run": "tsx scripts/migrationCommands.ts run"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.3.1",

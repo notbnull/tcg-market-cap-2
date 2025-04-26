@@ -23,7 +23,7 @@ export class PokemonCard extends BaseModel {
   public rarity: string;
 
   @prop({ type: Number })
-  public nationalPokedexNumber?: number;
+  public nationalPokedexNumber: number;
 
   @prop({ type: () => CardImages })
   public images: CardImages;
