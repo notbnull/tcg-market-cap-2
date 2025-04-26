@@ -20,10 +20,9 @@ export async function fetchSets({
   };
   logger.info(`Fetching sets with sort: ${sortColumn} ${sortDirection}`);
 
-  // Build query filter
   const filter: { [key: string]: unknown } = {};
   if (query) {
-    filter.name = { $regex: query, $options: "i" }; // Case-insensitive search
+    filter.name = { $regex: query, $options: "i" };
     logger.info(`Searching sets with name matching: ${query}`);
   }
 
@@ -38,7 +37,6 @@ export async function fetchSets({
   const totalSets = await PokemonSetModel.countDocuments(filter);
   logger.info(`Total sets: ${totalSets}`);
 
-  // Convert MongoDB documents to plain objects
   const plainSets = sets.map((set) => ({
     _id: set._id.toString(),
     pokemonTcgApiId: set.pokemonTcgApiId,

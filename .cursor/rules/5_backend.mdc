@@ -1,0 +1,10 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+This project is primarily serverless so when editing things in a clean/solid fashion we must biade by single responsibility functions and composability in the same way we would with oop, just with functional application. 
+
+
+This is a nextjs APP ROUTER style project
+

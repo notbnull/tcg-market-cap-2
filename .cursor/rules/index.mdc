@@ -1,0 +1,36 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Evidenza Project Rules
+
+## RULE PROCESSING SEQUENCE
+
+Read and mentally process these rules in the following order:
+
+1. **0_CRITICAL_RULES.mdc** - MUST acknowledge before proceeding
+2. **1_style.mdc** - Core code style principles
+3. **2_inline_comments.mdc** - 🚫 NO INLINE COMMENTS ($1000 PENALTY)
+4. **3_js_docs.mdc** - Documentation standards
+5. **4_TSX.mdc** - Script execution standards
+6. **5_backend.mdc** - Backend architecture principles
+7. **6_frontend.mdc** - Frontend component guidelines
+
+## MANDATORY VERIFICATION PROCESS
+
+Before submitting any code changes, verify:
+
+1. You've acknowledged all rules in **0_CRITICAL_RULES.mdc**
+2. Your code contains **ZERO** inline comments
+3. All functions/classes have proper JSDoc comments
+4. Code follows CLEAN and SOLID principles 
+5. Backend code uses serverless patterns with functional composition
+6. Frontend uses shadcn components
+
+## RULE VIOLATION CONSEQUENCES
+
+- Inline comments: $1000 penalty per occurrence
+- Other rule violations: Require immediate correction
+
+Remember: These rules exist to maintain code quality and consistency across the project.

@@ -1,0 +1,30 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# 🚨 CRITICAL RULES CHECKLIST - MUST ACKNOWLEDGE 🚨
+
+Before processing any request, you MUST mentally check off each item below:
+
+```
+✋ STOP AND READ THIS ENTIRE CHECKLIST BEFORE PROCEEDING ✋
+```
+
+## ACKNOWLEDGMENT REQUIRED FOR EACH REQUEST
+
+- [ ] I will NEVER use inline comments (// style) in code - $1000 PENALTY per violation
+- [ ] I will follow CLEAN/SOLID principles with highest priority on Single Responsibility
+- [ ] I will ensure all JSDoc comments are correct for functions/classes
+- [ ] I will use tsx instead of ts-node for scripts in this repo
+- [ ] I will follow serverless patterns with single responsibility functions
+- [ ] I will use shadcn components for frontend components
+
+## Verification Process
+
+1. Read and understand these rules BEFORE coding
+2. Check your code against these rules BEFORE submitting
+3. Mentally check each box to confirm compliance
+
+```
+⚠️ FAILURE TO FOLLOW ANY RULE ABOVE WILL RESULT IN PENALTIES ⚠️

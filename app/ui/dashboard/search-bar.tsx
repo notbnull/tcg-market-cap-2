@@ -10,12 +10,12 @@ export default function SearchBar({ placeholder }: { placeholder: string }) {
   const pathname = usePathname();
   const { replace } = useRouter();
   const [searchTerm, setSearchTerm] = useState(
-    searchParams.get("query")?.toString() || ""
+    searchParams?.get("query")?.toString() || ""
   );
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
-      const params = new URLSearchParams(searchParams);
+      const params = new URLSearchParams(searchParams?.toString() ?? "");
       if (searchTerm) {
         params.set("query", searchTerm);
       } else {

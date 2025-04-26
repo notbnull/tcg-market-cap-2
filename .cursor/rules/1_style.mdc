@@ -1,0 +1,31 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Code Style Requirements
+
+## CLEAN Code Principles - MANDATORY
+- **C**lean: Code should be simple and readable 
+- **L**ean: Minimize unnecessary code
+- **E**xtensible: Design for future extension
+- **A**bstract: Hide implementation details
+- **N**eat: Consistent formatting and organization
+
+## DRY Principles - HIGHEST PRIORITY
+- Never repeat code or logic
+- Extract common functionality into reusable units
+- Use composition over inheritance
+
+## SOLID Principles - IN ORDER OF PRIORITY
+1. **S**ingle Responsibility: Each class/function does one thing
+2. **O**pen/Closed: Open for extension, closed for modification
+3. **L**iskov Substitution: Subtypes must be substitutable
+4. **I**nterface Segregation: Small, specific interfaces
+5. **D**ependency Inversion: Depend on abstractions
+
+## Verification Checklist
+- [ ] Code follows CLEAN principles
+- [ ] No code duplication (DRY)
+- [ ] Each function has a single responsibility
+- [ ] Code is properly abstracted and modular 

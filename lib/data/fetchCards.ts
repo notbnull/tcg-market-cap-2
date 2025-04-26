@@ -26,7 +26,7 @@ export async function fetchCards({
   const queryFilter = { ...filter };
   if (queryFilter.set && typeof queryFilter.set === "string") {
     try {
-      queryFilter.set = new mongoose.Types.ObjectId(queryFilter.set);
+      queryFilter.set = new (mongoose.Types.ObjectId as any)(queryFilter.set);
       logger.info(`Converted set ID ${filter.set} to ObjectId`);
     } catch (error) {
       logger.error(`Failed to convert set ID to ObjectId: ${error}`);
@@ -60,7 +60,6 @@ export async function fetchCards({
       logger.info("No cards found for this filter");
     }
 
-    // Convert mongoose ObjectIds to strings using JSON serialization
     const plainCards = JSON.parse(JSON.stringify(cards));
 
     return { cards: plainCards, totalCards };

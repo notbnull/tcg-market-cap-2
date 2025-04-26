@@ -82,3 +82,7 @@ export interface SetGridProps {
   totalSets: number;
   totalPages: number;
 }
+
+type ObjectIdString = string;
+
+export type ClassRef<T> = T | ObjectIdString;

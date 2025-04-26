@@ -1,0 +1,46 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# ⚠️ CRITICAL RULE: NO INLINE COMMENTS ⚠️
+
+```
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+⛔ ABSOLUTELY NO INLINE COMMENTS IN CODE ⛔
+    • No comments starting with // anywhere in code
+    • $1000 PENALTY PER VIOLATION - STRICTLY ENFORCED
+    • Comments lie, code doesn't
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+```
+
+## Allowed Documentation
+- ✅ JSDoc comments at the top of functions/classes
+- ✅ Module-level documentation with /** ... */
+
+## REQUIRED VERIFICATION
+Before submitting ANY code changes, you MUST verify:
+[ ] My code contains ZERO inline comments (// style)
+[ ] I have used ONLY JSDoc-style comments where necessary
+
+## Examples
+
+### BAD - Will be penalized $1000
+```typescript
+function calculate() {
+  // Get the value
+  const value = 5;
+  return value * 2; // multiply by 2
+}
+```
+
+### GOOD - Properly formatted
+```typescript
+/**
+ * Calculates a value by multiplying input by 2
+ */
+function calculate() {
+  const value = 5;
+  return value * 2;
+}
+```

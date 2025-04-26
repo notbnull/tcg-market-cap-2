@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { PokemonCard } from "@/mongodb/models/PokemonCard/PokemonCard";
-import { PokemonSet } from "@/mongodb/models/PokemonSet/PokemonSet";
+import { MongoDbModels } from "@/mongodb";
 import mongoose from "mongoose";
 
 // Helper function to validate and fix image URLs
@@ -35,8 +34,7 @@ async function main() {
     console.log("=".repeat(80));
 
     // Get models
-    const PokemonSetModel = await PokemonSet.getMongoModel();
-    const PokemonCardModel = await PokemonCard.getMongoModel();
+    const { PokemonSetModel, PokemonCardModel } = await MongoDbModels();
 
     // Fix set image URLs
     console.log("\n🔍 Checking set image URLs...");

@@ -28,10 +28,10 @@ export function TablePagination({
   const searchParams = useSearchParams();
 
   const handlePageChange = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString() ?? "");
     params.set("page", page.toString());
     // Preserve existing search params
-    for (const [key, value] of searchParams.entries()) {
+    for (const [key, value] of searchParams?.entries() ?? []) {
       if (key !== "page") {
         params.set(key, value);
       }

@@ -54,7 +54,6 @@ async function getCard(id: string): Promise<CardData | null> {
     logger.info(`Fetching card with ID: ${id}`);
 
     try {
-      // Query for the card by its PokemonTCG API ID
       const { PokemonCardModel } = await MongoDbModels();
       const card = await PokemonCardModel.findOne({ pokemonTcgApiId: id })
         .populate("set")

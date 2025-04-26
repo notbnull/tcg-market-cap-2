@@ -1,0 +1,6 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Make sure when updating/editing that all js docs are correct per function/class AND that their are no inline comments. 

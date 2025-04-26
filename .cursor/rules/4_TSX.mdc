@@ -1,0 +1,6 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+When using scripts in this repo, we almost always will run using tsx instead of ts-node. 

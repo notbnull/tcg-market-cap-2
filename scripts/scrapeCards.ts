@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import { Types } from "mongoose";
 import { PokemonCard } from "@/mongodb/models/PokemonCard/PokemonCard";
 import { PokemonSet } from "@/mongodb/models/PokemonSet/PokemonSet";
+import { MongoDbModels } from "@/mongodb";
 
 // Define interfaces for better type safety
 interface PokemonCardData {
@@ -73,10 +74,8 @@ async function main() {
     let startPage = 1;
     let hasMorePages = true;
 
-    // Cache of known sets to reduce database queries
     const globalSetCache = new Map<string, SetDocument>();
 
-    // Global statistics
     const totalSetsProcessed = 0;
     let totalSetsCreated = 0;
     let totalSetsUpdated = 0;
@@ -85,8 +84,8 @@ async function main() {
     let totalCardsUpdated = 0;
 
     // Get models once instead of in each iteration
-    const PokemonCardModel = await PokemonCard.getMongoModel();
-    const PokemonSetModel = await PokemonSet.getMongoModel();
+    const { PokemonCardModel } = await MongoDbModels();
+    const { PokemonSetModel } = await MongoDbModels();
 
     console.log("=".repeat(80));
     console.log("STARTING POKEMON TCG DATA SCRAPING");

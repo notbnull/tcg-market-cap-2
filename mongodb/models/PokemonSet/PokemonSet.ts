@@ -1,13 +1,6 @@
 import { prop } from "@typegoose/typegoose";
-import { BaseModel, EmbeddedDocument } from "@/lib/mongodb";
-
-class SetImages extends EmbeddedDocument {
-  @prop({ required: true, type: String })
-  public symbol: string;
-
-  @prop({ required: true, type: String })
-  public logo: string;
-}
+import { BaseModel } from "@/lib/mongodb";
+import { SetImages } from "./SetImages";
 
 export class PokemonSet extends BaseModel {
   @prop({ required: true, unique: true, type: String })

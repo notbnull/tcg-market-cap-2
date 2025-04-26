@@ -82,8 +82,6 @@ export default class ModelRegistry {
 
       mongoose
         .connect(MONGODB_URI, {
-          serverSelectionTimeoutMS: 5000,
-          maxPoolSize: 10,
           dbName: MONGODB_DB_NAME,
         })
         .then(() => {
