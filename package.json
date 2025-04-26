@@ -3,7 +3,9 @@
   "author": "notbnull",
   "scripts": {
     "build": "next build",
-    "dev": "rimraf .next && next dev --turbopack",
+    "dev": "rm -rf .next && npm run dev:stop && npm run dev:start",
+    "dev:stop": "pkill -f 'npm run dev:start' || true",
+    "dev:start": "concurrently --kill-others --success first \"npx inngest dev --no-poll -u http://localhost:3000/api/inngest\" \"next dev --turbopack\"",
     "start": "next start --keepAliveTimeout 70000",
     "lint": "next lint"
   },
@@ -55,6 +57,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "concurrently": "^9.1.2",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^22.10.1",
     "@types/react": "npm:types-react@19.0.0-rc.1",

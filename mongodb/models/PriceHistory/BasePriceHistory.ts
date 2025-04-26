@@ -6,12 +6,9 @@ export class BasePriceHistory extends BaseModel {
   @prop({ ref: PokemonCard, required: true, index: true })
   public card: Ref<PokemonCard>;
 
-  @prop({ required: true, type: Date, default: Date.now, index: true })
-  public timestamp: Date;
+  @prop({ type: String, required: true, index: true })
+  public lastDayUpdated: string;
 
   @prop({ type: String })
-  public source: string;
-
-  @prop({ type: String })
-  public url?: string;
+  public url: string;
 }
