@@ -10,12 +10,10 @@ import { PokemonCard } from "./models/PokemonCard/PokemonCard";
 import { PokemonSet } from "./models/PokemonSet/PokemonSet";
 import { TCGPlayerPriceHistory } from "./models/PriceHistory/TCGPlayerPriceHistory/TCGPlayerPriceHistory";
 import { CardMarketPriceHistory } from "./models/PriceHistory/CardMarketPriceHistory/CardMarketPriceHistory";
+import { PsaPopulation } from "./models/PsaPopulation/PsaPopulation";
 
 const MONGODB_URI = env.MONGODB_URI;
 const MONGODB_DB_NAME = env.MONGODB_DB_NAME;
-
-// Type for initialization function
-type InitializerFn = () => Promise<void>;
 
 // Export the class declaration before defining it
 export default class ModelRegistry {
@@ -39,6 +37,11 @@ export default class ModelRegistry {
 
   private _cardMarketPriceHistoryModel: ReturnModelType<
     typeof CardMarketPriceHistory,
+    object
+  > | null = null;
+
+  private _psaPopulationModel: ReturnModelType<
+    typeof PsaPopulation,
     object
   > | null = null;
 
@@ -75,6 +78,7 @@ export default class ModelRegistry {
     this._cardMarketPriceHistoryModel = this.registerModel(
       CardMarketPriceHistory
     );
+    this._psaPopulationModel = this.registerModel(PsaPopulation);
 
     this._isInitialized = true;
 
@@ -128,6 +132,7 @@ export default class ModelRegistry {
       | typeof PokemonSet
       | typeof TCGPlayerPriceHistory
       | typeof CardMarketPriceHistory
+      | typeof PsaPopulation
   >(ModelClass: T): ReturnModelType<T, object> {
     try {
       // Check if model already exists in mongoose models
@@ -220,5 +225,22 @@ export default class ModelRegistry {
     }
 
     return this._cardMarketPriceHistoryModel!;
+  }
+
+  public get PsaPopulationModel(): ReturnModelType<
+    typeof PsaPopulation,
+    object
+  > {
+    if (!this._isInitialized) {
+      throw new Error("ModelRegistry not initialized. Call init() first");
+    }
+
+    if (!this._isConnected) {
+      this.connect().catch((err) => {
+        logger.error(`Failed to connect to MongoDB: ${err}`);
+      });
+    }
+
+    return this._psaPopulationModel!;
   }
 }

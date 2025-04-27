@@ -4,6 +4,7 @@ import { PokemonCard } from "./models/PokemonCard/PokemonCard";
 import { PokemonSet } from "./models/PokemonSet/PokemonSet";
 import { CardMarketPriceHistory } from "./models/PriceHistory/CardMarketPriceHistory/CardMarketPriceHistory";
 import { TCGPlayerPriceHistory } from "./models/PriceHistory/TCGPlayerPriceHistory/TCGPlayerPriceHistory";
+import { PsaPopulation } from "./models/PsaPopulation/PsaPopulation";
 
 export const getModelRegistry = () => ModelRegistry.getInstance();
 
@@ -18,6 +19,7 @@ export interface MongoModels {
     typeof CardMarketPriceHistory,
     object
   >;
+  PsaPopulationModel: ReturnModelType<typeof PsaPopulation, object>;
 }
 
 // Cache for the initialized models
@@ -47,6 +49,7 @@ export async function MongoDbModels(): Promise<MongoModels> {
     PokemonSetModel: registry.PokemonSetModel,
     TCGPlayerPriceHistoryModel: registry.TCGPlayerPriceHistoryModel,
     CardMarketPriceHistoryModel: registry.CardMarketPriceHistoryModel,
+    PsaPopulationModel: registry.PsaPopulationModel,
   };
 
   return modelsCache;

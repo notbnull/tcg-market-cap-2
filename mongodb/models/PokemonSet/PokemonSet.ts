@@ -6,6 +6,9 @@ export class PokemonSet extends BaseModel {
   @prop({ required: true, unique: true, type: String })
   public pokemonTcgApiId: string;
 
+  @prop({ required: false, type: String })
+  public psaPopulationUrl: string;
+
   @prop({ required: true, type: String })
   public name: string;
 

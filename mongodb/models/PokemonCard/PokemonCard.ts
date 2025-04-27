@@ -7,6 +7,9 @@ export class PokemonCard extends BaseModel {
   @prop({ required: true, unique: true, type: String })
   public pokemonTcgApiId: string;
 
+  @prop({ type: String })
+  public psaSpecId: string;
+
   @prop({ required: true, type: String })
   public name: string;
 
