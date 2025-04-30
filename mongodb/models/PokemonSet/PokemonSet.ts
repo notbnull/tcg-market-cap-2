@@ -1,7 +1,12 @@
-import { prop } from "@typegoose/typegoose";
+import { prop, modelOptions } from "@typegoose/typegoose";
 import { BaseModel } from "@/lib/mongodb";
 import { SetImages } from "./SetImages";
 
+@modelOptions({
+  schemaOptions: {
+    collection: "pokemonsets",
+  },
+})
 export class PokemonSet extends BaseModel {
   @prop({ required: true, unique: true, type: String })
   public pokemonTcgApiId: string;

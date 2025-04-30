@@ -1,5 +1,5 @@
 import { BasePriceHistory } from "../BasePriceHistory";
-import { prop } from "@typegoose/typegoose";
+import { prop, modelOptions } from "@typegoose/typegoose";
 import { EmbeddedDocument } from "@/lib/mongodb";
 import { Schema } from "mongoose";
 
@@ -20,6 +20,11 @@ export class TCGPlayerPrices extends EmbeddedDocument {
   public directLow?: number;
 }
 
+@modelOptions({
+  schemaOptions: {
+    collection: "tcgplayerpricehistories",
+  },
+})
 export class TCGPlayerPriceHistory extends BasePriceHistory {
   @prop({ type: Schema.Types.Mixed })
   public price!: Record<string, TCGPlayerPrices>;

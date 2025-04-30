@@ -1,4 +1,4 @@
-import { prop } from "@typegoose/typegoose";
+import { prop, modelOptions } from "@typegoose/typegoose";
 import { BasePriceHistory } from "../BasePriceHistory";
 import { EmbeddedDocument } from "@/lib/mongodb";
 import { Schema } from "mongoose";
@@ -50,6 +50,11 @@ export class CardMarketPrices extends EmbeddedDocument {
   public reverseHoloAvg30?: number;
 }
 
+@modelOptions({
+  schemaOptions: {
+    collection: "cardmarketpricehistories",
+  },
+})
 export class CardMarketPriceHistory extends BasePriceHistory {
   @prop({ type: Schema.Types.Mixed, required: true })
   public prices!: CardMarketPrices;
