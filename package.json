@@ -5,7 +5,7 @@
     "build": "next build",
     "dev": "rm -rf .next && npm run dev:stop && npm run dev:start",
     "dev:stop": "pkill -f 'npm run dev:start' || true",
-    "dev:start": "concurrently --kill-others --success first \"npx inngest dev --no-poll -u http://localhost:3000/api/inngest\" \"next dev --turbopack\"",
+    "dev:start": "concurrently --kill-others --success first \"npx inngest-cli dev --no-poll -u http://localhost:3000/api/inngest\" \"next dev --turbopack\"",
     "start": "next start --keepAliveTimeout 70000",
     "lint": "next lint"
   },
@@ -38,7 +38,6 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "global": "^4.4.0",
-    "inngest": "^3.27.5",
     "lucide-react": "^0.456.0",
     "mongoose": "^8.9.1",
     "mongoose-lean-virtuals": "^1.1.0",
@@ -72,6 +71,8 @@
     "eslint": "^8.57.0",
     "eslint-config-next": "15.0.3",
     "eslint-plugin-unused-imports": "^4.1.4",
+    "inngest": "^3.39.1",
+    "inngest-cli": "^1.6.4",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.2"
   }
